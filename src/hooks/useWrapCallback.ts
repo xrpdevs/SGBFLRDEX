@@ -50,7 +50,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient ETH balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient <NATIVE_TOKEN_SYMBOL> balance',
       };
     } else if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
@@ -66,7 +66,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WETH balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient <NATIVE_TOKEN_SYMBOL> balance',
       };
     } else {
       return NOT_APPLICABLE;

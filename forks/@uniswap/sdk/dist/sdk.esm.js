@@ -21,6 +21,7 @@ var ChainId;
   ChainId[ChainId["RINKEBY"] = 4] = "RINKEBY";
   ChainId[ChainId["G\xD6RLI"] = 5] = "G\xD6RLI";
   ChainId[ChainId["KOVAN"] = 42] = "KOVAN";
+  ChainId[ChainId["<CHAIN_NAME>"] = <chain_id>] = "<CHAIN_NAME>";
 })(ChainId || (ChainId = {}));
 
 var TradeType;
@@ -761,7 +762,7 @@ var Pair = /*#__PURE__*/function () {
   function Pair(tokenAmountA, tokenAmountB) {
     var tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
     ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
-    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, 'SWAP-LP', 'Swap-LP-Token');
+    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, '<lp_token_symbol>', '<lp_token_name>');
     this.tokenAmounts = tokenAmounts;
   }
 

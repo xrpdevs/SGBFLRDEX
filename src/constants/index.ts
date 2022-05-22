@@ -9,24 +9,19 @@ import {
 } from '../connectors';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const FACTORY_ADDRESS = '0x6Bd5A1A63ffF10De3c6B7C667040E9AE1B47fDf2';
-export const ROUTER_ADDRESS = '0xA4E1f3fD10E2397f58926E215Ed331D7cDA14056';
+export const FACTORY_ADDRESS = '<factory_address>';
+export const ROUTER_ADDRESS = '<router_address>';
 
-export const LP_TOKEN_NAME = 'Swap-LP-Token';
-export const LP_TOKEN_SYMBOL = 'SWAP-LP';
+export const LP_TOKEN_NAME = '<lp_token_name>';
+export const LP_TOKEN_SYMBOL = '<lp_token_symbol>';
 
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
 };
 
-export const DAI = new Token(
-  ChainId.MAINNET,
-  '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-  18,
-  'DAI',
-  'Dai Stablecoin'
-);
+// ETH tokens
+export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin');
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C');
 export const USDT = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD');
 export const COMP = new Token(ChainId.MAINNET, '0xc00e94Cb662C3520282E6f5717214004A7f26888', 18, 'COMP', 'Compound');
@@ -50,6 +45,7 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
+  [ChainId.<CHAIN_NAME>]: [WETH[ChainId.<CHAIN_NAME>]],
 };
 
 // used to construct intermediary pairs for trading
