@@ -1,0 +1,25 @@
+{
+  "name": "IcecreamSwap Default List",
+  "timestamp": "2022-02-15T18:30:00.000Z",
+  "version": {
+    "major": 10,
+    "minor": 1,
+    "patch": 0
+  },
+  "tags": {},
+  "logoURI": "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
+  "keywords": [
+    "uniswap",
+    "default"
+  ],
+  "tokens": [
+    {
+      "name": "Wrapped Brise",
+      "address": "0x0eb9036cbE0f052386f36170c6b07eF0a0E3f710",
+      "symbol": "WBRISE",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/11079.png"
+    }
+  ]
+}
