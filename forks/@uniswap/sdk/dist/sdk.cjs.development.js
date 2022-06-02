@@ -25,7 +25,7 @@ var _SOLIDITY_TYPE_MAXIMA;
   ChainId[ChainId["RINKEBY"] = 4] = "RINKEBY";
   ChainId[ChainId["G\xD6RLI"] = 5] = "G\xD6RLI";
   ChainId[ChainId["KOVAN"] = 42] = "KOVAN";
-  ChainId[ChainId["<CHAIN_NAME>"] = <chain_id>] = "<CHAIN_NAME>";
+  ChainId[ChainId["BITGERT"] = 32520] = "BITGERT";
 })(exports.ChainId || (exports.ChainId = {}));
 
 (function (TradeType) {
@@ -39,8 +39,8 @@ var _SOLIDITY_TYPE_MAXIMA;
   Rounding[Rounding["ROUND_UP"] = 2] = "ROUND_UP";
 })(exports.Rounding || (exports.Rounding = {}));
 
-var FACTORY_ADDRESS = '<factory_address>';
-var INIT_CODE_HASH = '<init_code_hash>';
+var FACTORY_ADDRESS = '0x9E6d21E759A7A288b80eef94E4737D313D31c13f';
+var INIT_CODE_HASH = '0x58c1b429d0ffdb4407396ae8118c58fed54898473076d0394163ea2198f7c4a3';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -373,7 +373,7 @@ function Currency(decimals, symbol, name) {
  * The only instance of the base class `Currency`.
  */
 
-Currency.ETHER = /*#__PURE__*/new Currency(18, '<NATIVE_TOKEN_SYMBOL>', '<native_token>');
+Currency.ETHER = /*#__PURE__*/new Currency(18, 'BRISE', 'Brise');
 var ETHER = Currency.ETHER;
 
 var _WETH;
@@ -439,7 +439,7 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var WETH = (_WETH = {}, _WETH[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.<CHAIN_NAME>] = /*#__PURE__*/new Token(exports.ChainId.<CHAIN_NAME>, '<native_token_address>', <native_token_decimals>, '<WRAPPED_NATIVE_TOKEN_SYMBOL>', '<wrapped_native_token>'), _WETH);
+var WETH = (_WETH = {}, _WETH[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.BITGERT] = /*#__PURE__*/new Token(exports.ChainId.BITGERT, '0x0eb9036cbE0f052386f36170c6b07eF0a0E3f710', 18, 'WBRISE', 'Wrapped Brise'), _WETH);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
@@ -762,7 +762,7 @@ var Pair = /*#__PURE__*/function () {
   function Pair(tokenAmountA, tokenAmountB) {
     var tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
     ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
-    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, '<lp_token_symbol>', '<lp_token_name>');
+    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, 'ICELP', 'icecreamswap.com LP');
     this.tokenAmounts = tokenAmounts;
   }
 

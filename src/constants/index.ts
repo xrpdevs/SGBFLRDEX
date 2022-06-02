@@ -9,11 +9,11 @@ import {
 } from '../connectors';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const FACTORY_ADDRESS = '<factory_address>';
-export const ROUTER_ADDRESS = '<router_address>';
+export const FACTORY_ADDRESS = '0x9E6d21E759A7A288b80eef94E4737D313D31c13f';
+export const ROUTER_ADDRESS = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4';
 
-export const LP_TOKEN_NAME = '<lp_token_name>';
-export const LP_TOKEN_SYMBOL = '<lp_token_symbol>';
+export const LP_TOKEN_NAME = 'icecreamswap.com LP';
+export const LP_TOKEN_SYMBOL = 'ICELP';
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -45,7 +45,7 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
-  [ChainId.<CHAIN_NAME>]: [WETH[ChainId.<CHAIN_NAME>]],
+  [ChainId.BITGERT]: [WETH[ChainId.BITGERT]],
 };
 
 // used to construct intermediary pairs for trading

@@ -245,7 +245,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.GÖRLI]: 'Goerli',
   [ChainId.KOVAN]: 'Kovan',
-  [ChainId.<CHAIN_NAME>]: '<CHAIN_NAME>',
+  [ChainId.BITGERT]: 'BITGERT',
 };
 
 export default function Header() {
@@ -293,7 +293,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} <NATIVE_TOKEN_SYMBOL>
+                {userEthBalance?.toSignificant(4)} BRISE
               </BalanceText>
             ) : null}
             <Web3Status />
