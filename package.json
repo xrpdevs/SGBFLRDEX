@@ -85,6 +85,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start_prebuild": "http-server build -a localhost -p 3001 -o",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "postinstall": "rm -rf ./node_modules/@uniswap/sdk; cp -r ./forks/@uniswap/sdk ./node_modules/@uniswap/sdk",
@@ -93,6 +94,7 @@
   "dependencies": {
     "@uniswap/default-token-list": "2.0.0",
     "dotenv": "^10.0.0",
+    "http-server": "14.1.1",
     "web3-utils": "^1.5.3"
   },
   "eslintConfig": {
