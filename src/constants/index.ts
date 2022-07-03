@@ -29,6 +29,31 @@ export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589
 export const AMPL = new Token(ChainId.MAINNET, '0xD46bA6D942050d489DBd938a2C909A5d5039A161', 9, 'AMPL', 'Ampleforth');
 export const WBTC = new Token(ChainId.MAINNET, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', 8, 'WBTC', 'Wrapped BTC');
 
+// custom tokens
+export const SPHYNX = new Token(ChainId.BITGERT, '0x0e11DCE06eF2FeD6f78CEF5144F970E1184b4298', 18, 'SPHYNX', 'Sphynx BRISE');
+export const BPAD = new Token(ChainId.BITGERT, '0x71946a5C9dA7C95ee804a9BE561EC15A3F286A7D', 8, 'BPAD', 'Brisepad');
+export const BROGE = new Token(ChainId.BITGERT, '0x41c5ae56681Fb19334eCF7d914919805DaE2Ec8f', 18, 'BROGE', 'BROGE');
+export const BRZILLA = new Token(ChainId.BITGERT, '0x9b8535Dd9281e48484725bC9Eb6Ed2f66CEA2a36', 18, 'BRZILLA', 'BriseZilla');
+export const BTXT = new Token(ChainId.BITGERT, '0x1A8a039007186d7640C1D7Cd7c2606e333D04e03', 18, 'BTXT', 'BitsXT');
+export const ELTG = new Token(ChainId.BITGERT, '0xb860eCD8400600c13342a751408737235E177077', 9, 'ELTG', 'Graphen');
+export const EVO = new Token(ChainId.BITGERT, '0x267Ae4bA9CE5ef3c87629812596b0D89EcBD81dD', 18, 'EVO', 'EVO');
+export const MAP = new Token(ChainId.BITGERT, '0x6D347fdCb302a5879545E01EceE7A176db23dCDa', 2, 'MAP', '4D Twin Maps');
+export const Miidas = new Token(ChainId.BITGERT, '0x5B534A2Df329195Fd7e5c9AcA1D9ffbdA14A4963', 6, 'Miidas', 'Miidas NFT');
+export const MIR = new Token(ChainId.BITGERT, '0x2468dad471fA7E03d8029F057cc41742F017D53d', 18, 'MIR', 'Mix Reality');
+export const NUMI = new Token(ChainId.BITGERT, '0x6718e47e74497d1564EE76d832309144b83Ef8E8', 18, 'NUMI', 'Numitor');
+export const OMNIA = new Token(ChainId.BITGERT, '0x5d4685c2C75581C67b9D6292A065a767bC214681', 8, 'OMNIA', 'OmniaVerse');
+export const PRDS = new Token(ChainId.BITGERT, '0x31226B28add9062c5064a9Bd35eA155F323C6ca6', 9, 'PRDS', 'Brise Paradise');
+export const RLUNA = new Token(ChainId.BITGERT, '0x6660A7AF57fAE695D4a10D645088aBA9fb547728', 18, 'RLUNA', 'Rise Luna');
+export const VEF = new Token(ChainId.BITGERT, '0xD6447d2fA919811c41a064bDbdaB1E281F8de9B2', 18, 'VEF', 'Vefi Ecosystem Token');
+export const WMF = new Token(ChainId.BITGERT, '0xc89fcd3E1CF5A355fc41E160d18BAC5f624610D4', 18, 'WMF', 'Whale Maker Fund');
+export const YOGO = new Token(ChainId.BITGERT, '0xB361D5953e21Cfde5CD62B89FDf40bc21903A6bb', 18, 'YOGO', 'YOGO Token');
+export const YPC = new Token(ChainId.BITGERT, '0x11203a00a9134Db8586381C4B2fca0816476b3FD', 18, 'YPC', 'Young Parrot');
+export const ICE = new Token(ChainId.BITGERT, '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D', 18, 'ICE', 'IceCream');
+export const TOKYO = new Token(ChainId.BITGERT, '0x38EA4741d100cAe9700f66B194777F31919142Ee', 9, '$Tokyo', 'Metaverse City Tokyo');
+export const BITGERT_USDC = new Token(ChainId.BITGERT, '0xcf2DF9377A4e3C10e9EA29fDB8879d74C27FCDE7', 18, 'USDC', 'USD Coin');
+export const BITGERT_USDT = new Token(ChainId.BITGERT, '0xDe14b85cf78F2ADd2E867FEE40575437D5f10c06', 18, 'USDT', 'Tether USD');
+export const WOLF = new Token(ChainId.BITGERT, '0x4Fb3DBF9111169ff60fFB8a7be1c6Fd3D4E417bC', 19, 'WOLF', 'Alpha Trades');
+
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;
@@ -52,6 +77,7 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR, WBTC],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT],
 };
 
 /**
@@ -68,6 +94,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -78,6 +105,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.RINKEBY]: [...WETH_ONLY[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [...WETH_ONLY[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
