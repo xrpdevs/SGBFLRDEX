@@ -168,6 +168,40 @@ const Icon = styled.div`
 
 const activeClassName = 'ACTIVE';
 
+const StyledNavExternalLink = styled.a`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
+  border-radius: 12px;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text2};
+  font-size: 0.9rem;
+  width: fit-content;
+  padding: 0.3rem 0.6rem;
+  font-weight: 500;
+  transition: 0.3s;
+
+  &:not(:last-child) {
+    margin-right: 0.16rem;
+  }
+
+  :hover,
+  :focus {
+    color: ${({ theme }) => darken(0.1, theme.text1)};
+  }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    border-radius: 8px;
+    padding: 0.3rem 7%;
+    border: 1px solid ${({ theme }) => theme.bg3};
+
+    &:not(:last-child) {
+      margin-right: 2%;
+    }
+  `};
+`;
+
 const StyledNavLink = styled(NavLink).attrs({
   activeClassName,
 })`
@@ -281,6 +315,9 @@ export default function Header() {
         >
           {t('pool')}
         </StyledNavLink>
+        <StyledNavExternalLink id={`info-nav-link`} href={"https://info.icecreamswap.com"}>
+          {t('info')}
+        </StyledNavExternalLink>
       </HeaderLinks>
 
       <HeaderControls>
