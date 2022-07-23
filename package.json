@@ -88,6 +88,7 @@
     "start_prebuild": "http-server build -a localhost -p 3001 -o",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "postinstall": "xcopy /Y /E /I .\\forks\\@uniswap\\* .\\node_modules\\@uniswap",
     "only_linux_postinstall": "cp -r ./forks/@uniswap/ ./node_modules/@uniswap/",
     "deploy": "gh-pages -d build"
   },
