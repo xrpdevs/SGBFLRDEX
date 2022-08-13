@@ -1,5 +1,5 @@
 {
-  "name": "IcecreamSwap Default List",
+  "name": "IcecreamSwap Default",
   "timestamp": "2022-02-15T18:30:00.000Z",
   "version": {
     "major": 10,
@@ -228,6 +228,22 @@
       "decimals": 18,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xc3b730dD10A7e9A69204bDf6cb5A426e4f1F09E3/logo.png"
+    },
+    {
+      "name": "Tether USD IceCream",
+      "address": "0xC7E6d7E08A89209F02af47965337714153c529F0",
+      "symbol": "USDTi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png"
+    },
+    {
+      "name": "3D City",
+      "address": "0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5",
+      "symbol": "$3DC",
+      "decimals": 8,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png"
     }
   ]
 }

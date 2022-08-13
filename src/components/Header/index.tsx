@@ -318,6 +318,9 @@ export default function Header() {
         <StyledNavExternalLink id={`info-nav-link`} href={"https://info.icecreamswap.com"}>
           {t('info')}
         </StyledNavExternalLink>
+        <StyledNavExternalLink id={`bridge-nav-link`} href={"https://bridge.icecreamswap.com"}>
+          {t('bridge')}
+        </StyledNavExternalLink>
       </HeaderLinks>
 
       <HeaderControls>

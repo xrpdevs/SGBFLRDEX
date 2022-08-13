@@ -83,13 +83,14 @@
     "@walletconnect/web3-provider": "1.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn copy_tokens && react-scripts start",
+    "build": "yarn copy_tokens && react-scripts build",
     "start_prebuild": "http-server build -a localhost -p 3001 -o",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "postinstall": "xcopy /Y /E /I .\\forks\\@uniswap\\* .\\node_modules\\@uniswap",
     "only_linux_postinstall": "cp -r ./forks/@uniswap/ ./node_modules/@uniswap/",
+    "copy_tokens": "xcopy /Y .\\forks\\@uniswap\\default-token-list\\build\\uniswap-default.tokenlist.json .\\public\\default.tokenlist.json",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {

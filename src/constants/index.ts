@@ -53,6 +53,7 @@ export const TOKYO = new Token(ChainId.BITGERT, '0x38EA4741d100cAe9700f66B194777
 export const BITGERT_USDC = new Token(ChainId.BITGERT, '0xcf2DF9377A4e3C10e9EA29fDB8879d74C27FCDE7', 18, 'USDC', 'USD Coin');
 export const BITGERT_USDT = new Token(ChainId.BITGERT, '0xDe14b85cf78F2ADd2E867FEE40575437D5f10c06', 18, 'USDT', 'Tether USD');
 export const WOLF = new Token(ChainId.BITGERT, '0x4Fb3DBF9111169ff60fFB8a7be1c6Fd3D4E417bC', 19, 'WOLF', 'Alpha Trades');
+export const BITGERT_USDTI = new Token(ChainId.BITGERT, '0xC7E6d7E08A89209F02af47965337714153c529F0', 18, 'USDTi', 'Tether USD IceCream');
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
@@ -77,7 +78,7 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT, ICE],
 };
 
 /**
@@ -94,7 +95,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT]
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI, BITGERT_USDC]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -105,7 +106,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.RINKEBY]: [...WETH_ONLY[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [...WETH_ONLY[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
