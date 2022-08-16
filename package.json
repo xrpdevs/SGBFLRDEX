@@ -83,14 +83,17 @@
     "@walletconnect/web3-provider": "1.4.1"
   },
   "scripts": {
-    "start": "yarn copy_tokens && react-scripts start",
-    "build": "yarn copy_tokens && react-scripts build",
+    "start": "yarn copy_forks && yarn copy_tokens && react-scripts start",
+    "build": "yarn copy_forks && yarn copy_tokens && react-scripts build",
     "start_prebuild": "http-server build -a localhost -p 3001 -o",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "postinstall": "xcopy /Y /E /I .\\forks\\@uniswap\\* .\\node_modules\\@uniswap",
-    "only_linux_postinstall": "cp -r ./forks/@uniswap/ ./node_modules/@uniswap/",
-    "copy_tokens": "xcopy /Y .\\forks\\@uniswap\\default-token-list\\build\\uniswap-default.tokenlist.json .\\public\\default.tokenlist.json",
+    "postinstall": "yarn copy_forks",
+    "only_linux_postinstall": "yarn only_linux_copy_forks",
+    "copy_tokens_windows": "xcopy /Y .\\forks\\@uniswap\\default-token-list\\build\\uniswap-default.tokenlist.json .\\public\\default.tokenlist.json",
+    "copy_tokens": "cp ./forks/@uniswap/default-token-list/build/uniswap-default.tokenlist.json ./public/default.tokenlist.json",
+    "copy_forks_windows": "xcopy /Y /E /I .\\forks\\@uniswap\\* .\\node_modules\\@uniswap",
+    "copy_forks": "cp -r ./forks/@uniswap/ ./node_modules/@uniswap/",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
