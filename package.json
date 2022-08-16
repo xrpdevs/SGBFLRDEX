@@ -93,7 +93,7 @@
     "copy_tokens_windows": "xcopy /Y .\\forks\\@uniswap\\default-token-list\\build\\uniswap-default.tokenlist.json .\\public\\default.tokenlist.json",
     "copy_tokens": "cp ./forks/@uniswap/default-token-list/build/uniswap-default.tokenlist.json ./public/default.tokenlist.json",
     "copy_forks_windows": "xcopy /Y /E /I .\\forks\\@uniswap\\* .\\node_modules\\@uniswap",
-    "copy_forks": "cp -r ./forks/@uniswap/ ./node_modules/@uniswap/",
+    "copy_forks": "cp -r ./forks/@uniswap/ ./node_modules/",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
