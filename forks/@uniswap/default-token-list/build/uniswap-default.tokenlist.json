@@ -244,6 +244,14 @@
       "decimals": 8,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png"
+    },
+    {
+      "name": "Darrival",
+      "address": "0xeB18A16A08530b811523fA49310319809ac4c979",
+      "symbol": "DRV",
+      "decimals": 9,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xeB18A16A08530b811523fA49310319809ac4c979/logo.png"
     }
   ]
 }
