@@ -54,6 +54,18 @@ export const BITGERT_USDC = new Token(ChainId.BITGERT, '0xcf2DF9377A4e3C10e9EA29
 export const BITGERT_USDT = new Token(ChainId.BITGERT, '0xDe14b85cf78F2ADd2E867FEE40575437D5f10c06', 18, 'USDT', 'Tether USD');
 export const WOLF = new Token(ChainId.BITGERT, '0x4Fb3DBF9111169ff60fFB8a7be1c6Fd3D4E417bC', 19, 'WOLF', 'Alpha Trades');
 export const BITGERT_USDTI = new Token(ChainId.BITGERT, '0xC7E6d7E08A89209F02af47965337714153c529F0', 18, 'USDTi', 'Tether USD IceCream');
+export const BITGERT_3DC = new Token(ChainId.BITGERT, '0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5', 8, '$3DC', '3D City');
+export const DARRIVAL = new Token(ChainId.BITGERT, '0xeB18A16A08530b811523fA49310319809ac4c979', 9, 'DRV', 'Darrival');
+export const BITGERT_ETHERI = new Token(ChainId.BITGERT, '0xeA61Dc96F105469522d39cBF7bD59b42393678F7', 18, 'ETHi', 'Ether');
+export const BITGERT_DOGECOINI = new Token(ChainId.BITGERT, '0x46a8E16dB8Bb241618873bCA21Ef02F120EA4125', 18, 'DOGEi', 'Dogecoin');
+export const BITGERT_BNBI = new Token(ChainId.BITGERT, '0x74446a7418BFbFCDe3F1f6bCaFFA097d050a6dD8', 18, 'BNBi', 'BNB');
+export const BITGERT_SHIBAI = new Token(ChainId.BITGERT, '0xADF3051f6fbC1f42ee20B2eDb47EA7f6CcaBe978', 18, 'SHIBi', 'Shiba Inu');
+export const BITGERT_DAII = new Token(ChainId.BITGERT, '0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9', 18, 'DAIi', 'DAI');
+export const BITGERT_USDCI = new Token(ChainId.BITGERT, '0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c', 18, 'USDCi', 'USD Coin');
+export const BITGERT_BUSDI = new Token(ChainId.BITGERT, '0xd0CE781960c6356A7175988751bfC8d7cd28EA60', 18, 'BUSDi', 'BUSD');
+
+
+
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
@@ -78,7 +90,7 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDT, ICE],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDCI, BITGERT_USDT, BITGERT_USDTI, ICE, BITGERT_DAII],
 };
 
 /**
@@ -95,7 +107,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI, BITGERT_USDC]
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDCI, BITGERT_USDT, BITGERT_USDTI, ICE, BITGERT_DAII]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -106,7 +118,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.RINKEBY]: [...WETH_ONLY[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [...WETH_ONLY[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI, BITGERT_3DC, DARRIVAL, BITGERT_ETHERI, BITGERT_DOGECOINI, BITGERT_BNBI, BITGERT_SHIBAI, BITGERT_DAII, BITGERT_USDCI, BITGERT_BUSDI],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
