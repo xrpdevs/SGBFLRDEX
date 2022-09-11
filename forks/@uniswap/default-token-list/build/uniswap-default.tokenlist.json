@@ -252,6 +252,62 @@
       "decimals": 9,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xeB18A16A08530b811523fA49310319809ac4c979/logo.png"
+    },
+    {
+      "name": "Ether",
+      "address": "0xeA61Dc96F105469522d39cBF7bD59b42393678F7",
+      "symbol": "ETHi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xeA61Dc96F105469522d39cBF7bD59b42393678F7/logo.png"
+    },
+    {
+      "name": "Dogecoin",
+      "address": "0x46a8E16dB8Bb241618873bCA21Ef02F120EA4125",
+      "symbol": "DOGEi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x46a8E16dB8Bb241618873bCA21Ef02F120EA4125/logo.png"
+    },
+    {
+      "name": "BNB",
+      "address": "0x74446a7418BFbFCDe3F1f6bCaFFA097d050a6dD8",
+      "symbol": "BNBi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x74446a7418BFbFCDe3F1f6bCaFFA097d050a6dD8/logo.png"
+    },
+    {
+      "name": "Shiba Inu",
+      "address": "0xADF3051f6fbC1f42ee20B2eDb47EA7f6CcaBe978",
+      "symbol": "SHIBi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xADF3051f6fbC1f42ee20B2eDb47EA7f6CcaBe978/logo.png"
+    },
+    {
+      "name": "Dai",
+      "address": "0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9",
+      "symbol": "DAIi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9/logo.png"
+    },
+    {
+      "name": "USD Coin",
+      "address": "0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c",
+      "symbol": "USDCi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c/logo.png"
+    },
+    {
+      "name": "BUSD",
+      "address": "0xd0CE781960c6356A7175988751bfC8d7cd28EA60",
+      "symbol": "BUSDi",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xd0CE781960c6356A7175988751bfC8d7cd28EA60/logo.png"
     }
   ]
 }
