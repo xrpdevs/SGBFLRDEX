@@ -84,6 +84,7 @@
   },
   "scripts": {
     "start": "yarn copy_forks && yarn copy_tokens && react-scripts start",
+    "start_windows": "yarn copy_forks_windows && yarn copy_tokens_windows && react-scripts start",
     "build": "yarn copy_forks && yarn copy_tokens && react-scripts build",
     "start_prebuild": "http-server build -a localhost -p 3001 -o",
     "test": "react-scripts test --env=jsdom",

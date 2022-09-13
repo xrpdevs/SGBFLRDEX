@@ -24,6 +24,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   5: 'goerli.etherscan.io',
   42: 'kovan.etherscan.io',
   32520: 'brisescan.com',
+  2000: "explorer.dogechain.dog",
 };
 
 export function getEtherscanLink(

@@ -308,6 +308,14 @@
       "decimals": 18,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xd0CE781960c6356A7175988751bfC8d7cd28EA60/logo.png"
+    },
+    {
+      "name": "Wrapped DOGE",
+      "address": "0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101",
+      "symbol": "WDOGE",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101/logo.png"
     }
   ]
 }
