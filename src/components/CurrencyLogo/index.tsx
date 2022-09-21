@@ -54,9 +54,9 @@ export default function CurrencyLogo({
   }, [currency, uriLocations]);
 
   if (currency === ETHER) {
-    if (chainId == ChainIds.BITGERT) {
+    if (chainId === ChainIds.BITGERT) {
       return <StyledEthereumLogo src={BitgertLogo} size={size} style={style} />;
-    } else if (chainId == ChainIds.DOGE) {
+    } else if (chainId === ChainIds.DOGE) {
       return <StyledEthereumLogo src={DogeLogo} size={size} style={style} />;
     } else {
       return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;

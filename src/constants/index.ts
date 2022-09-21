@@ -75,6 +75,16 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.DOGE]: [WETH[ChainId.DOGE]],
 };
 
+export const ETH_NAME_AND_SYMBOL = {
+  [ChainId.MAINNET]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.ROPSTEN]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.RINKEBY]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.GÖRLI]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.KOVAN]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.BITGERT]: {"name": "Brise", "symbol": "BRISE"},
+  [ChainId.DOGE]: {"name": "Dogecoin", "symbol": "DOGE"},
+}
+
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,

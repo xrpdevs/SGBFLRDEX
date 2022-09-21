@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, currencyEquals, ETHER, Token } from "@uniswap/sdk";
+import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from "@uniswap/sdk";
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "react";
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";
@@ -15,6 +15,7 @@ import { MouseoverTooltip } from "../Tooltip";
 import { MenuItem } from "./styleds";
 import Loader from "../Loader";
 import { isTokenOnList } from "../../utils";
+import { ETH_NAME_AND_SYMBOL } from "../../constants";
 import ImportRow from "./ImportRow";
 import { wrappedCurrency } from "utils/wrappedCurrency";
 
@@ -94,12 +95,15 @@ function CurrencyRow({
   otherSelected: boolean;
   style: CSSProperties;
 }) {
-  const { account } = useActiveWeb3React();
+  const { account, chainId } = useActiveWeb3React();
   const key = currencyKey(currency);
   const selectedTokenList = useCombinedActiveList();
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency);
   const customAdded = useIsUserAddedToken(currency);
   const balance = useCurrencyBalance(account ?? undefined, currency);
+
+  const currencyName = (currency === ETHER && chainId)? ETH_NAME_AND_SYMBOL[chainId].name: currency.name;
+  const currencySymbol = (currency === ETHER && chainId)? ETH_NAME_AND_SYMBOL[chainId].symbol: currency.symbol;
 
   // only show add or remove buttons if not on selected list
   return (
@@ -112,11 +116,11 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size={'24px'} />
       <Column>
-        <Text title={currency.name} fontWeight={500}>
-          {currency.symbol}
+        <Text title={currencyName} fontWeight={500}>
+          {currencySymbol}
         </Text>
         <TYPE.darkGray ml="0px" fontSize={'12px'} fontWeight={300}>
-          {currency.name} {!isOnSelectedList && customAdded && '• Added by user'}
+          {currencyName} {!isOnSelectedList && customAdded && '• Added by user'}
         </TYPE.darkGray>
       </Column>
       <TokenTags currency={currency} />
@@ -148,14 +152,9 @@ export default function CurrencyList({
   showImportView: () => void;
   setImportToken: (token: Token) => void;
 }) {
+  const itemData = useMemo(() => (showETH ? [Currency.ETHER, ...currencies] : currencies), [currencies, showETH]);
+
   const { chainId } = useActiveWeb3React();
-  let eth = Currency.ETHER;
-  if (chainId == ChainId.BITGERT) {
-    eth = new Token(chainId, "0x0000000000000000000000000000000000000000 ", 18, "BRISE", "Brise");
-  } else if (chainId == ChainId.DOGE) {
-    eth = new Token(chainId, "0x0000000000000000000000000000000000000000 ", 18, "DOGE", "Doge");
-  }
-  const itemData = useMemo(() => (showETH ? [eth, ...currencies] : currencies), [eth, currencies, showETH]);
 
   const inactiveTokens: {
     [address: string]: Token;

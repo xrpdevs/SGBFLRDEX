@@ -5,6 +5,7 @@ import { useTransactionAdder } from '../state/transactions/hooks';
 import { useCurrencyBalance } from '../state/wallet/hooks';
 import { useActiveWeb3React } from './index';
 import { useWETHContract } from './useContract';
+import { ETH_NAME_AND_SYMBOL } from "../constants";
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -50,7 +51,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient BRISE balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient ' + ETH_NAME_AND_SYMBOL[chainId].symbol + ' balance',
       };
     } else if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
@@ -66,7 +67,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient BRISE balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient ' + inputCurrency.symbol + ' balance',
       };
     } else {
       return NOT_APPLICABLE;

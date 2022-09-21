@@ -16,6 +16,7 @@ import { LightCard } from '../Card';
 import { Moon, Sun } from 'react-feather';
 import Row, { RowFixed } from '../Row';
 import Web3Status from '../Web3Status';
+import { ETH_NAME_AND_SYMBOL } from "../../constants";
 
 const HeaderFrame = styled.div`
   width: 100vw;
@@ -334,7 +335,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} Native tokens
+                {userEthBalance?.toSignificant(4)} {chainId? ETH_NAME_AND_SYMBOL[chainId].symbol: "Native Tokens"}
               </BalanceText>
             ) : null}
             <Web3Status />
