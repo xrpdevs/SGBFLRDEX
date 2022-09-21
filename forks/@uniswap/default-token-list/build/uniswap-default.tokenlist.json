@@ -316,6 +316,30 @@
       "decimals": 18,
       "chainId": 2000,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101/logo.png"
+    },
+    {
+      "name": "Dogechain Token",
+      "address": "0x7B4328c127B85369D9f82ca0503B000D09CF9180",
+      "symbol": "DC",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x7B4328c127B85369D9f82ca0503B000D09CF9180/logo.png"
+    },
+    {
+      "name": "YodeDEX Token",
+      "address": "0x6FC4563460d5f45932C473334d5c1C5B4aEA0E01",
+      "symbol": "YODE",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x6FC4563460d5f45932C473334d5c1C5B4aEA0E01/logo.png"
+    },
+    {
+      "name": "Atlantis",
+      "address": "0x338726dd694dB9e2230eC2bB8624a2d7F566C96d",
+      "symbol": "ATL",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x338726dd694dB9e2230eC2bB8624a2d7F566C96d/logo.png"
     }
   ]
 }
