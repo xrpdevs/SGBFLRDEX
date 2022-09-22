@@ -309,13 +309,15 @@
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xd0CE781960c6356A7175988751bfC8d7cd28EA60/logo.png"
     },
+
+
     {
       "name": "Wrapped DOGE",
       "address": "0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101",
       "symbol": "WDOGE",
       "decimals": 18,
       "chainId": 2000,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xb7ddc6414bf4f5515b52d8bdd69973ae205ff101/logo.png"
     },
     {
       "name": "Dogechain Token",
@@ -323,7 +325,7 @@
       "symbol": "DC",
       "decimals": 18,
       "chainId": 2000,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x7B4328c127B85369D9f82ca0503B000D09CF9180/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x7B4328c127B85369D9f82ca0503B000D09CF9180/logo.png"
     },
     {
       "name": "YodeDEX Token",
@@ -331,7 +333,7 @@
       "symbol": "YODE",
       "decimals": 18,
       "chainId": 2000,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x6FC4563460d5f45932C473334d5c1C5B4aEA0E01/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x6FC4563460d5f45932C473334d5c1C5B4aEA0E01/logo.png"
     },
     {
       "name": "Atlantis",
@@ -339,7 +341,71 @@
       "symbol": "ATL",
       "decimals": 18,
       "chainId": 2000,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/dogechain/assets/0x338726dd694dB9e2230eC2bB8624a2d7F566C96d/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x338726dd694dB9e2230eC2bB8624a2d7F566C96d/logo.png"
+    },
+    {
+      "name": "IceCream",
+      "address": "0x81bCEa03678D1CEF4830942227720D542Aa15817",
+      "symbol": "ICE",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x81bCEa03678D1CEF4830942227720D542Aa15817/logo.png"
+    },
+    {
+      "name": "Tether USD",
+      "address": "0xD2683b22287E63D22928CBe4514003a92507f474",
+      "symbol": "USDT",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xD2683b22287E63D22928CBe4514003a92507f474/logo.png"
+    },
+    {
+      "name": "Ether",
+      "address": "0xDC2393dc10734BF153153038943a5deB42b209cd",
+      "symbol": "ETH",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xDC2393dc10734BF153153038943a5deB42b209cd/logo.png"
+    },
+    {
+      "name": "BNB",
+      "address": "0xC7E6d7E08A89209F02af47965337714153c529F0",
+      "symbol": "BNB",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png"
+    },
+    {
+      "name": "Shiba Inu",
+      "address": "0xB25cB6a275a8D6a613228FB161eB3627b50EB696",
+      "symbol": "SHIB",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xB25cB6a275a8D6a613228FB161eB3627b50EB696/logo.png"
+    },
+    {
+      "name": "Dai",
+      "address": "0xc57F0eb99363e747D637B17BBdB4e1AB85e60631",
+      "symbol": "DAI",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xc57F0eb99363e747D637B17BBdB4e1AB85e60631/logo.png"
+    },
+    {
+      "name": "USD Coin",
+      "address": "0xce6c9c70f91c6797873EFC80505f972290A88f5D",
+      "symbol": "USDC",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0xce6c9c70f91c6797873EFC80505f972290A88f5D/logo.png"
+    },
+    {
+      "name": "BUSD",
+      "address": "0x905caAE1627856529BEd7b9572F02af5e5Ac6cA7",
+      "symbol": "BUSD",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x905caAE1627856529BEd7b9572F02af5e5Ac6cA7/logo.png"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token, ChainId as ChainIds } from '@uniswap/sdk';
+import { Currency, ETHER, Token, ChainId as ChainIds, ChainId } from "@uniswap/sdk";
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -9,9 +9,10 @@ import useHttpLocations from '../../hooks/useHttpLocations';
 import { useActiveWeb3React } from '../../hooks';
 import { WrappedTokenInfo } from '../../state/lists/hooks';
 import Logo from '../Logo';
+import { NETWORK_LABELS } from "../Header";
 
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/${address}/logo.png`;
+const getTokenLogoURL = (address: string, chainId: ChainId) =>
+  `https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/${NETWORK_LABELS[chainId]?.toLowerCase()}/assets/${address}/logo.png`;
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -45,10 +46,10 @@ export default function CurrencyLogo({
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)];
+        return [...uriLocations, getTokenLogoURL(currency.address, currency.chainId)];
       }
 
-      return [getTokenLogoURL(currency.address)];
+      return [getTokenLogoURL(currency.address, currency.chainId)];
     }
     return [];
   }, [currency, uriLocations]);
