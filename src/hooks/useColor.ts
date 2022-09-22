@@ -3,6 +3,7 @@ import { shade } from 'polished';
 import Vibrant from 'node-vibrant';
 import { hex } from 'wcag-contrast';
 import { Token, ChainId } from '@uniswap/sdk';
+import { NETWORK_LABELS } from "components/Header"
 import uriToHttp from 'utils/uriToHttp';
 
 async function getColorFromToken(token: Token): Promise<string | null> {
@@ -10,7 +11,7 @@ async function getColorFromToken(token: Token): Promise<string | null> {
     return Promise.resolve('#FAAB14');
   }
 
-  const path = `https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/${token.address}/logo.png`;
+  const path = `https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/${NETWORK_LABELS[token.chainId]?.toLowerCase()}/assets/${token.address}/logo.png`;
 
   return Vibrant.from(path)
     .getPalette()

@@ -15,7 +15,7 @@ import DoubleCurrencyLogo from '../../components/DoubleLogo';
 import { AddRemoveTabs } from '../../components/NavigationTabs';
 import Row, { RowBetween, RowFlat } from '../../components/Row';
 
-import { ROUTER_ADDRESS } from '../../constants';
+import { ETH_NAME_AND_SYMBOL, ROUTER_ADDRESS } from "../../constants";
 import { PairState } from '../../data/Reserves';
 import { useActiveWeb3React } from '../../hooks';
 import { useCurrency } from '../../hooks/Tokens';
@@ -67,6 +67,9 @@ export default function AddLiquidity({
     poolTokenPercentage,
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined);
+
+  const currencyASymbol = currencies[Field.CURRENCY_A] === ETHER? chainId? ETH_NAME_AND_SYMBOL[chainId].symbol: "": currencies[Field.CURRENCY_A]?.symbol
+  const currencyBSymbol = currencies[Field.CURRENCY_B] === ETHER? chainId? ETH_NAME_AND_SYMBOL[chainId].symbol: "": currencies[Field.CURRENCY_B]?.symbol
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity);
 
@@ -175,11 +178,11 @@ export default function AddLiquidity({
               'Add ' +
               parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
               ' ' +
-              currencies[Field.CURRENCY_A]?.symbol +
+              currencyASymbol +
               ' and ' +
               parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
               ' ' +
-              currencies[Field.CURRENCY_B]?.symbol,
+              currencyBSymbol,
           });
 
           setTxHash(response.hash);
@@ -200,7 +203,7 @@ export default function AddLiquidity({
         <LightCard mt="20px" borderRadius="20px">
           <RowFlat>
             <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
-              {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol}
+              {currencyASymbol + '/' + currencyBSymbol}
             </Text>
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
@@ -224,7 +227,7 @@ export default function AddLiquidity({
         </RowFlat>
         <Row>
           <Text fontSize="24px">
-            {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol + ' Pool Tokens'}
+            {currencyASymbol + '/' + currencyBSymbol + ' Pool Tokens'}
           </Text>
         </Row>
         <TYPE.italic fontSize={12} textAlign="left" padding={'8px 0 0 0 '}>
@@ -250,8 +253,8 @@ export default function AddLiquidity({
   };
 
   const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-    currencies[Field.CURRENCY_A]?.symbol
-  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    currencyASymbol
+  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyBSymbol}`;
 
   const handleCurrencyASelect = useCallback(
     (currencyA: Currency) => {
@@ -406,9 +409,9 @@ export default function AddLiquidity({
                           width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalA === ApprovalState.PENDING ? (
-                            <Dots>Approving {currencies[Field.CURRENCY_A]?.symbol}</Dots>
+                            <Dots>Approving {currencyASymbol}</Dots>
                           ) : (
-                            'Approve ' + currencies[Field.CURRENCY_A]?.symbol
+                            'Approve ' + currencyASymbol
                           )}
                         </ButtonPrimary>
                       )}
@@ -419,9 +422,9 @@ export default function AddLiquidity({
                           width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalB === ApprovalState.PENDING ? (
-                            <Dots>Approving {currencies[Field.CURRENCY_B]?.symbol}</Dots>
+                            <Dots>Approving {currencyBSymbol}</Dots>
                           ) : (
-                            'Approve ' + currencies[Field.CURRENCY_B]?.symbol
+                            'Approve ' + currencyBSymbol
                           )}
                         </ButtonPrimary>
                       )}

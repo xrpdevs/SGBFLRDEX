@@ -84,7 +84,18 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
   [ChainId.BITGERT]: [WETH[ChainId.BITGERT]],
+  [ChainId.DOGE]: [WETH[ChainId.DOGE]],
 };
+
+export const ETH_NAME_AND_SYMBOL = {
+  [ChainId.MAINNET]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.ROPSTEN]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.RINKEBY]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.GÖRLI]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.KOVAN]: {"name": "Ether", "symbol": "ETH"},
+  [ChainId.BITGERT]: {"name": "Brise", "symbol": "BRISE"},
+  [ChainId.DOGE]: {"name": "Dogecoin", "symbol": "DOGE"},
+}
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
@@ -107,7 +118,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDCI, BITGERT_USDT, BITGERT_USDTI, ICE, BITGERT_DAII]
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -119,6 +130,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.GÖRLI]: [...WETH_ONLY[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI, BITGERT_3DC, DARRIVAL, BITGERT_ETHERI, BITGERT_DOGECOINI, BITGERT_BNBI, BITGERT_SHIBAI, BITGERT_DAII, BITGERT_USDCI, BITGERT_BUSDI],
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI],
+  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE]],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
