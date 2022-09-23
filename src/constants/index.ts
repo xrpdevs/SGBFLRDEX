@@ -65,8 +65,6 @@ export const BITGERT_USDCI = new Token(ChainId.BITGERT, '0xaEdD3Ff7b9Fc5fc4e44d1
 export const BITGERT_BUSDI = new Token(ChainId.BITGERT, '0xd0CE781960c6356A7175988751bfC8d7cd28EA60', 18, 'BUSDi', 'BUSD');
 
 
-
-
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;

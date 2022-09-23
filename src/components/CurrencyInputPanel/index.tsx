@@ -1,4 +1,4 @@
-import { Currency, ETHER, Pair } from "@uniswap/sdk";
+import { Currency, Pair } from "@uniswap/sdk";
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
@@ -14,7 +14,6 @@ import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 import { useActiveWeb3React } from '../../hooks';
 import { useTranslation } from 'react-i18next';
 import useTheme from '../../hooks/useTheme';
-import { ETH_NAME_AND_SYMBOL } from "../../constants";
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -154,15 +153,13 @@ export default function CurrencyInputPanel({
   const { t } = useTranslation();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { account, chainId } = useActiveWeb3React();
+  const { account } = useActiveWeb3React();
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined);
   const theme = useTheme();
 
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false);
   }, [setModalOpen]);
-
-  const currencySymbol = (currency === ETHER && chainId)? ETH_NAME_AND_SYMBOL[chainId].symbol: currency?.symbol;
 
   return (
     <InputPanel id={id}>
@@ -225,11 +222,11 @@ export default function CurrencyInputPanel({
               ) : (
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
                   {
-                    (currencySymbol && currencySymbol.length > 20
-                    ? currencySymbol.slice(0, 4) +
+                    (currency &&currency.symbol && currency.symbol.length > 20
+                    ? currency.symbol.slice(0, 4) +
                       '...' +
-                      currencySymbol.slice(currencySymbol.length - 5, currencySymbol.length)
-                    : currencySymbol) || t('Token')}
+                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                    : currency?.symbol) || t('Token')}
                 </StyledTokenName>
               )}
               {!disableCurrencySelect && <StyledDropDown />}

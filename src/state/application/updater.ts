@@ -4,6 +4,8 @@ import useDebounce from '../../hooks/useDebounce';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
 import { updateBlockNumber } from './actions';
 import { useDispatch } from 'react-redux';
+import { ETHER } from "@uniswap/sdk";
+import { ETH_NAME_AND_SYMBOL } from "../../constants";
 
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React();
@@ -52,6 +54,13 @@ export default function Updater(): null {
     if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return;
     dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }));
   }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId]);
+
+  // set proper chains native token (ETHER) name and symbol
+  useEffect(() => {
+    if (chainId) {
+      ETHER.changeNameAndSymbol(ETH_NAME_AND_SYMBOL[chainId].name, ETH_NAME_AND_SYMBOL[chainId].symbol);
+    }
+  }, [chainId])
 
   return null;
 }
