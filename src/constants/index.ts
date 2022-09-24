@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@uniswap/sdk';
+import {ChainId, JSBI, Percent, Token, WETH} from '@uniswap/sdk';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import {
   // fortmatic,
@@ -64,6 +64,8 @@ export const BITGERT_DAII = new Token(ChainId.BITGERT, '0x71Ef0A490E53Cc177F6401
 export const BITGERT_USDCI = new Token(ChainId.BITGERT, '0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c', 18, 'USDCi', 'USD Coin');
 export const BITGERT_BUSDI = new Token(ChainId.BITGERT, '0xd0CE781960c6356A7175988751bfC8d7cd28EA60', 18, 'BUSDi', 'BUSD');
 
+export const DOGE_ICE = new Token(ChainId.DOGE, '0x81bCEa03678D1CEF4830942227720D542Aa15817', 18, 'ICE', 'IceCream');
+
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
@@ -100,6 +102,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR, WBTC],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDCI, BITGERT_USDT, BITGERT_USDTI, ICE, BITGERT_DAII],
+  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE],
 };
 
 /**
@@ -116,7 +119,8 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
-  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI]
+  [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI],
+  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -128,7 +132,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.GÖRLI]: [...WETH_ONLY[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI, BITGERT_3DC, DARRIVAL, BITGERT_ETHERI, BITGERT_DOGECOINI, BITGERT_BNBI, BITGERT_SHIBAI, BITGERT_DAII, BITGERT_USDCI, BITGERT_BUSDI],
-  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE]],
+  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -140,6 +144,12 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [USDC, USDT],
     [DAI, USDT],
   ],
+  [ChainId.BITGERT]: [
+      [WETH[ChainId.BITGERT], ICE],
+  ],
+  [ChainId.DOGE]: [
+    [WETH[ChainId.DOGE], DOGE_ICE],
+  ]
 };
 
 export interface WalletInfo {

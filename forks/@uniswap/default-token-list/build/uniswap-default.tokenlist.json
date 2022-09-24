@@ -406,6 +406,14 @@
       "decimals": 18,
       "chainId": 2000,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x905caAE1627856529BEd7b9572F02af5e5Ac6cA7/logo.png"
+    },
+    {
+      "name": "LunaGens",
+      "address": "0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5",
+      "symbol": "LUNG",
+      "decimals": 18,
+      "chainId": 2000,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5/logo.png"
     }
   ]
 }
