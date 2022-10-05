@@ -69,6 +69,9 @@ export const BITGERT_BUSDI = new Token(ChainId.BITGERT, '0xd0CE781960c6356A71759
 
 export const DOGE_ICE = new Token(ChainId.DOGE, '0x81bCEa03678D1CEF4830942227720D542Aa15817', 18, 'ICE', 'IceCream');
 
+export const DOKEN_ICE = new Token(ChainId.DOKEN, '0x54051D9DbE99687867090d95fe15C3D3E35512Ba', 18, 'ICE', 'IceCream');
+export const DOKEN_USDT = new Token(ChainId.DOKEN, '0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5', 18, 'USDT', 'Tether USD');
+
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
@@ -88,6 +91,7 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
   [ChainId.BITGERT]: [WETH[ChainId.BITGERT]],
   [ChainId.DOGE]: [WETH[ChainId.DOGE]],
+  [ChainId.DOKEN]: [WETH[ChainId.DOKEN]],
 };
 
 export const ETH_NAME_AND_SYMBOL = {
@@ -98,6 +102,7 @@ export const ETH_NAME_AND_SYMBOL = {
   [ChainId.KOVAN]: {"name": "Ether", "symbol": "ETH"},
   [ChainId.BITGERT]: {"name": "Brise", "symbol": "BRISE"},
   [ChainId.DOGE]: {"name": "Dogecoin", "symbol": "DOGE"},
+  [ChainId.DOKEN]: {"name": "DoKEN", "symbol": "DKN"},
 }
 
 // used to construct intermediary pairs for trading
@@ -106,6 +111,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR, WBTC],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], BITGERT_USDC, BITGERT_USDCI, BITGERT_USDT, BITGERT_USDTI, ICE, BITGERT_DAII],
   [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE],
+  [ChainId.DOKEN]: [...WETH_ONLY[ChainId.DOKEN], DOKEN_ICE, DOKEN_USDT],
 };
 
 /**
@@ -123,7 +129,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], ICE, BITGERT_USDTI],
-  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE]
+  [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE],
+  [ChainId.DOKEN]: [...WETH_ONLY[ChainId.DOKEN], DOKEN_ICE]
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -136,6 +143,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.KOVAN]: [...WETH_ONLY[ChainId.KOVAN]],
   [ChainId.BITGERT]: [...WETH_ONLY[ChainId.BITGERT], SPHYNX, BPAD, BROGE, BRZILLA, BTXT, ELTG, EVO, MAP, Miidas, MIR, NUMI, OMNIA, PRDS, RLUNA, VEF, WMF, YOGO, YPC, ICE, TOKYO, BITGERT_USDC, BITGERT_USDT, WOLF, BITGERT_USDTI, BITGERT_3DC, DARRIVAL, BITGERT_ETHERI, BITGERT_DOGECOINI, BITGERT_BNBI, BITGERT_SHIBAI, BITGERT_DAII, BITGERT_USDCI, BITGERT_BUSDI, BITGERT_BASKOM, BITGERT_ABR, BITGERT_LUNG],
   [ChainId.DOGE]: [...WETH_ONLY[ChainId.DOGE], DOGE_ICE],
+  [ChainId.DOKEN]: [...WETH_ONLY[ChainId.DOKEN], DOKEN_ICE, DOKEN_USDT],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -152,6 +160,9 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ],
   [ChainId.DOGE]: [
     [WETH[ChainId.DOGE], DOGE_ICE],
+  ],
+  [ChainId.DOKEN]: [
+    [WETH[ChainId.DOKEN], DOKEN_ICE],
   ]
 };
 

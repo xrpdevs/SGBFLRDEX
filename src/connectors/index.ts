@@ -1,10 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers';
-import { InjectedConnector } from '@web3-react/injected-connector';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { WalletLinkConnector } from '@web3-react/walletlink-connector';
+import {Web3Provider} from '@ethersproject/providers';
+import {InjectedConnector} from '@web3-react/injected-connector';
+import {WalletConnectConnector} from '@web3-react/walletconnect-connector';
+import {WalletLinkConnector} from '@web3-react/walletlink-connector';
 // import { PortisConnector } from '@web3-react/portis-connector';
 // import { FortmaticConnector } from './Fortmatic';
-import { NetworkConnector } from './NetworkConnector';
+import {NetworkConnector} from './NetworkConnector';
+import {ChainId} from "@uniswap/sdk";
 
 const REACT_APP_NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
 // const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
@@ -26,7 +27,7 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [32520, 2000],
+  supportedChainIds: [ChainId.BITGERT, ChainId.DOGE, ChainId.DOKEN],
 });
 
 // mainnet only
