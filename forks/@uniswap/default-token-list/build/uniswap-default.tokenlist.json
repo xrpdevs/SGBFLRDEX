@@ -309,6 +309,14 @@
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xd0CE781960c6356A7175988751bfC8d7cd28EA60/logo.png"
     },
+    {
+      "name": "Ardiansyah Crypto",
+      "address": "0xbfa6394b9898566652276f1Fb40d65e75787D66f",
+      "symbol": "ARCO",
+      "decimals": 18,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xbfa6394b9898566652276f1Fb40d65e75787D66f/logo.png"
+    },
 
 
     {
