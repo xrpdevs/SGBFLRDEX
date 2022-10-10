@@ -13,7 +13,7 @@ import {
   errorFetchingMulticallResults,
   fetchingMulticallResults,
   parseCallKey,
-  updateMulticallResults,
+  updateMulticallResults
 } from './actions';
 
 // chunk calls so we do not exceed the gas limit
@@ -33,9 +33,7 @@ async function fetchChunk(
   console.debug('Fetching chunk', multicallContract, chunk, minBlockNumber);
   let resultsBlockNumber, returnData;
   try {
-    [resultsBlockNumber, returnData] = await multicallContract.aggregate(
-      chunk.map((obj) => [obj.address, obj.callData])
-    );
+      [resultsBlockNumber, returnData] = await multicallContract.aggregate(chunk.map(obj => [obj.address, obj.callData]));
   } catch (error) {
     console.debug('Failed to fetch chunk inside retry', error);
     throw error;
@@ -65,11 +63,11 @@ export function activeListeningKeys(
     const keyListeners = listeners[callKey];
 
     memo[callKey] = Object.keys(keyListeners)
-      .filter((key) => {
-        const blocksPerFetch = parseInt(key);
-        if (blocksPerFetch <= 0) return false;
-        return keyListeners[blocksPerFetch] > 0;
-      })
+        .filter(key => {
+            const blocksPerFetch = parseInt(key);
+            if (blocksPerFetch <= 0) return false;
+            return keyListeners[blocksPerFetch] > 0;
+        })
       .reduce((previousMin, current) => {
         return Math.min(previousMin, parseInt(current));
       }, Infinity);
@@ -95,17 +93,17 @@ export function outdatedListeningKeys(
   // no results at all, load everything
   if (!results) return Object.keys(listeningKeys);
 
-  return Object.keys(listeningKeys).filter((callKey) => {
-    const blocksPerFetch = listeningKeys[callKey];
+    return Object.keys(listeningKeys).filter(callKey => {
+        const blocksPerFetch = listeningKeys[callKey];
 
-    const data = callResults[chainId][callKey];
-    // no data, must fetch
-    if (!data) return true;
+        const data = callResults[chainId][callKey];
+        // no data, must fetch
+        if (!data) return true;
 
-    const minDataBlockNumber = latestBlockNumber - (blocksPerFetch - 1);
+        const minDataBlockNumber = latestBlockNumber - (blocksPerFetch - 1);
 
-    // already fetching it for a recent enough block, don't refetch it
-    if (data.fetchingBlockNumber && data.fetchingBlockNumber >= minDataBlockNumber) return false;
+        // already fetching it for a recent enough block, don't refetch it
+        if (data.fetchingBlockNumber && data.fetchingBlockNumber >= minDataBlockNumber) return false;
 
     // if data is older than minDataBlockNumber, fetch it
     return !data.blockNumber || data.blockNumber < minDataBlockNumber;
@@ -113,46 +111,41 @@ export function outdatedListeningKeys(
 }
 
 export default function Updater(): null {
-  const dispatch = useDispatch<AppDispatch>();
-  const state = useSelector<AppState, AppState['multicall']>((state) => state.multicall);
+    const dispatch = useDispatch<AppDispatch>();
+    const state = useSelector<AppState, AppState['multicall']>(state => state.multicall);
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100);
   const latestBlockNumber = useBlockNumber();
-  const { chainId } = useActiveWeb3React();
-  const multicallContract = useMulticallContract();
-  const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>();
+    const {chainId} = useActiveWeb3React();
+    const multicallContract = useMulticallContract();
+    const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>();
+    const listeningKeys: { [callKey: string]: number } = useMemo(() => {
+        return activeListeningKeys(debouncedListeners, chainId);
+    }, [debouncedListeners, chainId]);
+    const unserializedOutdatedCallKeys = useMemo(() => {
+        return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber);
+    }, [chainId, state.callResults, listeningKeys, latestBlockNumber]);
 
-  const listeningKeys: { [callKey: string]: number } = useMemo(() => {
-    return activeListeningKeys(debouncedListeners, chainId);
-  }, [debouncedListeners, chainId]);
+    const serializedOutdatedCallKeys = useMemo(() => JSON.stringify(unserializedOutdatedCallKeys.sort()), [
+        unserializedOutdatedCallKeys
+    ]);
+    useEffect(() => {
+        if (!latestBlockNumber || !chainId || !multicallContract) return;
 
-  const unserializedOutdatedCallKeys = useMemo(() => {
-    return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber);
-  }, [chainId, state.callResults, listeningKeys, latestBlockNumber]);
+        const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys);
+        if (outdatedCallKeys.length === 0) return;
+        const calls = outdatedCallKeys.map(key => parseCallKey(key));
+        const chunkedCalls = chunkArray(calls, CALL_CHUNK_SIZE);
 
-  const serializedOutdatedCallKeys = useMemo(
-    () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
-    [unserializedOutdatedCallKeys]
-  );
-
-  useEffect(() => {
-    if (!latestBlockNumber || !chainId || !multicallContract) return;
-
-    const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys);
-    if (outdatedCallKeys.length === 0) return;
-    const calls = outdatedCallKeys.map((key) => parseCallKey(key));
-
-    const chunkedCalls = chunkArray(calls, CALL_CHUNK_SIZE);
-
-    if (cancellations.current?.blockNumber !== latestBlockNumber) {
-      cancellations.current?.cancellations?.forEach((c) => c());
+        if (cancellations.current?.blockNumber !== latestBlockNumber) {
+            cancellations.current?.cancellations?.forEach(c => c());
     }
 
     dispatch(
       fetchingMulticallResults({
         calls,
         chainId,
-        fetchingBlockNumber: latestBlockNumber,
+          fetchingBlockNumber: latestBlockNumber
       })
     );
 
@@ -162,13 +155,13 @@ export default function Updater(): null {
         const { cancel, promise } = retry(() => fetchChunk(multicallContract, chunk, latestBlockNumber), {
           n: Infinity,
           minWait: 2500,
-          maxWait: 3500,
+            maxWait: 3500
         });
         promise
           .then(({ results: returnData, blockNumber: fetchBlockNumber }) => {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber };
 
-            // accumulates the length of all previous indices
+              // accumulates the length of all previous
             const firstCallKeyIndex = chunkedCalls
               .slice(0, index)
               .reduce<number>((memo, curr) => memo + curr.length, 0);
@@ -183,7 +176,7 @@ export default function Updater(): null {
                     memo[callKey] = returnData[i] ?? null;
                     return memo;
                   }, {}),
-                blockNumber: fetchBlockNumber,
+                  blockNumber: fetchBlockNumber
               })
             );
           })
@@ -192,17 +185,17 @@ export default function Updater(): null {
               console.debug('Cancelled fetch for blockNumber', latestBlockNumber);
               return;
             }
-            console.error('Failed to fetch multicall chunk', chunk, chainId, error);
-            dispatch(
-              errorFetchingMulticallResults({
-                calls: chunk,
-                chainId,
-                fetchingBlockNumber: latestBlockNumber,
-              })
-            );
+              console.error('Failed to fetch multicall chunk', chunk, chainId, error);
+              dispatch(
+                  errorFetchingMulticallResults({
+                      calls: chunk,
+                      chainId,
+                      fetchingBlockNumber: latestBlockNumber
+                  })
+              );
           });
-        return cancel;
-      }),
+          return cancel;
+      })
     };
   }, [chainId, multicallContract, dispatch, serializedOutdatedCallKeys, latestBlockNumber]);
 

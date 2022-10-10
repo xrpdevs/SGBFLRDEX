@@ -1,5 +1,5 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount } from '@uniswap/sdk';
-import { useCallback } from 'react';
+import {Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount} from 'neoswap-sdk';
+import {useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePair } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -12,7 +12,7 @@ import { useTokenBalances } from '../wallet/hooks';
 import { Field, typeInput } from './actions';
 
 export function useBurnState(): AppState['burn'] {
-  return useSelector<AppState, AppState['burn']>((state) => state.burn);
+    return useSelector<AppState, AppState['burn']>(state => state.burn);
 }
 
 export function useDerivedBurnInfo(
@@ -43,7 +43,7 @@ export function useDerivedBurnInfo(
   const tokens = {
     [Field.CURRENCY_A]: tokenA,
     [Field.CURRENCY_B]: tokenB,
-    [Field.LIQUIDITY]: pair?.liquidityToken,
+      [Field.LIQUIDITY]: pair?.liquidityToken
   };
 
   // liquidity values
@@ -68,7 +68,7 @@ export function useDerivedBurnInfo(
       : undefined;
   const liquidityValues: { [Field.CURRENCY_A]?: TokenAmount; [Field.CURRENCY_B]?: TokenAmount } = {
     [Field.CURRENCY_A]: liquidityValueA,
-    [Field.CURRENCY_B]: liquidityValueB,
+      [Field.CURRENCY_B]: liquidityValueB
   };
 
   let percentToRemove: Percent = new Percent('0', '100');
@@ -112,9 +112,9 @@ export function useDerivedBurnInfo(
         ? new TokenAmount(tokenA, percentToRemove.multiply(liquidityValueA.raw).quotient)
         : undefined,
     [Field.CURRENCY_B]:
-      tokenB && percentToRemove && percentToRemove.greaterThan('0') && liquidityValueB
-        ? new TokenAmount(tokenB, percentToRemove.multiply(liquidityValueB.raw).quotient)
-        : undefined,
+        tokenB && percentToRemove && percentToRemove.greaterThan('0') && liquidityValueB
+            ? new TokenAmount(tokenB, percentToRemove.multiply(liquidityValueB.raw).quotient)
+            : undefined
   };
 
   let error: string | undefined;
@@ -142,6 +142,6 @@ export function useBurnActionHandlers(): {
   );
 
   return {
-    onUserInput,
+      onUserInput
   };
 }

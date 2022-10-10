@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { ExternalLink } from '../../theme';
 
 const InfoCard = styled.button<{ active?: boolean }>`
-  background-color: ${({ theme, active }) => (active ? theme.bg4 : theme.bg3)};
+  background-color: ${({theme, active}) => (active ? theme.bg3 : theme.bg2)};
   padding: 1rem;
   outline: none;
   border: 1px solid;
   border-radius: 12px;
   width: 100% !important;
   &:focus {
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.primary1};
+    box-shadow: 0 0 0 1px ${({theme}) => theme.primary1};
   }
-  border-color: ${({ theme, active }) => (active ? theme.bg4 : theme.bg3)};
+  border-color: ${({theme, active}) => (active ? 'transparent' : theme.bg3)};
 `;
 
 const OptionCard = styled(InfoCard as any)`
@@ -45,9 +45,9 @@ const GreenCircle = styled.div`
   align-items: center;
 
   &:first-child {
-    height: 10px;
-    width: 10px;
-    margin-right: 10px;
+    height: 8px;
+    width: 8px;
+    margin-right: 8px;
     background-color: ${({ theme }) => theme.green1};
     border-radius: 50%;
   }
@@ -61,8 +61,8 @@ const CircleWrapper = styled.div`
 `;
 
 const HeaderText = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
-  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : ({ theme }) => theme.text1)};
+  ${({theme}) => theme.flexRowNoWrap};
+  color: ${props => (props.color === 'blue' ? ({theme}) => theme.primary1 : ({theme}) => theme.text1)};
   font-size: 1rem;
   font-weight: 500;
 `;
@@ -97,7 +97,7 @@ export default function Option({
   subheader = null,
   icon,
   active = false,
-  id,
+                                   id
 }: {
   link?: string | null;
   clickable?: boolean;

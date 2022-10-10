@@ -1,5 +1,5 @@
-import { Currency, Percent, Price } from '@uniswap/sdk';
-import React, { useContext } from 'react';
+import {Currency, Percent, Price} from 'neoswap-sdk';
+import React, {useContext} from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { AutoColumn } from '../../components/Column';
@@ -12,7 +12,7 @@ export function PoolPriceBar({
   currencies,
   noLiquidity,
   poolTokenPercentage,
-  price,
+                                 price
 }: {
   currencies: { [field in Field]?: Currency };
   noLiquidity?: boolean;

@@ -1,8 +1,9 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@uniswap/sdk';
-import { useCallback, useMemo } from 'react';
+import {Currency, CurrencyAmount, DEV, JSBI, Pair, Percent, Price, TokenAmount} from 'neoswap-sdk';
+import {useCallback, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PairState, usePair } from '../../data/Reserves';
-import { useTotalSupply } from '../../data/TotalSupply';
+import {useTotalSupply} from '../../data/TotalSupply';
+import {useTranslation} from 'react-i18next';
 
 import { useActiveWeb3React } from '../../hooks';
 import { wrappedCurrency, wrappedCurrencyAmount } from '../../utils/wrappedCurrency';
@@ -14,32 +15,7 @@ import { Field, typeInput } from './actions';
 const ZERO = JSBI.BigInt(0);
 
 export function useMintState(): AppState['mint'] {
-  return useSelector<AppState, AppState['mint']>((state) => state.mint);
-}
-
-export function useMintActionHandlers(noLiquidity: boolean | undefined): {
-  onFieldAInput: (typedValue: string) => void;
-  onFieldBInput: (typedValue: string) => void;
-} {
-  const dispatch = useDispatch<AppDispatch>();
-
-  const onFieldAInput = useCallback(
-    (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_A, typedValue, noLiquidity: noLiquidity === true }));
-    },
-    [dispatch, noLiquidity]
-  );
-  const onFieldBInput = useCallback(
-    (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_B, typedValue, noLiquidity: noLiquidity === true }));
-    },
-    [dispatch, noLiquidity]
-  );
-
-  return {
-    onFieldAInput,
-    onFieldBInput,
-  };
+    return useSelector<AppState, AppState['mint']>(state => state.mint);
 }
 
 export function useDerivedMintInfo(
@@ -58,17 +34,19 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent;
   error?: string;
 } {
-  const { account, chainId } = useActiveWeb3React();
+    const {account, chainId} = useActiveWeb3React();
 
-  const { independentField, typedValue, otherTypedValue } = useMintState();
+    const {t} = useTranslation();
 
-  const dependentField = independentField === Field.CURRENCY_A ? Field.CURRENCY_B : Field.CURRENCY_A;
+    const {independentField, typedValue, otherTypedValue} = useMintState();
 
-  // tokens
-  const currencies: { [field in Field]?: Currency } = useMemo(
-    () => ({
-      [Field.CURRENCY_A]: currencyA ?? undefined,
-      [Field.CURRENCY_B]: currencyB ?? undefined,
+    const dependentField = independentField === Field.CURRENCY_A ? Field.CURRENCY_B : Field.CURRENCY_A;
+
+    // tokens
+    const currencies: { [field in Field]?: Currency } = useMemo(
+        () => ({
+            [Field.CURRENCY_A]: currencyA ?? undefined,
+            [Field.CURRENCY_B]: currencyB ?? undefined
     }),
     [currencyA, currencyB]
   );
@@ -83,11 +61,11 @@ export function useDerivedMintInfo(
   // balances
   const balances = useCurrencyBalances(account ?? undefined, [
     currencies[Field.CURRENCY_A],
-    currencies[Field.CURRENCY_B],
+      currencies[Field.CURRENCY_B]
   ]);
   const currencyBalances: { [field in Field]?: CurrencyAmount } = {
     [Field.CURRENCY_A]: balances[0],
-    [Field.CURRENCY_B]: balances[1],
+      [Field.CURRENCY_B]: balances[1]
   };
 
   // amounts
@@ -108,7 +86,7 @@ export function useDerivedMintInfo(
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
-        return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount;
+          return dependentCurrency === DEV ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount;
       }
       return undefined;
     } else {
@@ -123,11 +101,11 @@ export function useDerivedMintInfo(
     currencyA,
     chainId,
     currencyB,
-    pair,
+      pair
   ]);
   const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = {
     [Field.CURRENCY_A]: independentField === Field.CURRENCY_A ? independentAmount : dependentAmount,
-    [Field.CURRENCY_B]: independentField === Field.CURRENCY_A ? dependentAmount : independentAmount,
+      [Field.CURRENCY_B]: independentField === Field.CURRENCY_A ? dependentAmount : independentAmount
   };
 
   const price = useMemo(() => {
@@ -148,7 +126,7 @@ export function useDerivedMintInfo(
     const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts;
     const [tokenAmountA, tokenAmountB] = [
       wrappedCurrencyAmount(currencyAAmount, chainId),
-      wrappedCurrencyAmount(currencyBAmount, chainId),
+        wrappedCurrencyAmount(currencyBAmount, chainId)
     ];
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {
       return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB);
@@ -167,15 +145,15 @@ export function useDerivedMintInfo(
 
   let error: string | undefined;
   if (!account) {
-    error = 'Connect Wallet';
+      error = t('connectWallet');
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? 'Invalid pair';
+      error = error ?? t('invalidPair');
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'Enter an amount';
+      error = error ?? t('enterAnAmount');
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts;
@@ -189,16 +167,43 @@ export function useDerivedMintInfo(
   }
 
   return {
-    dependentField,
-    currencies,
-    pair,
-    pairState,
-    currencyBalances,
-    parsedAmounts,
-    price,
-    noLiquidity,
-    liquidityMinted,
-    poolTokenPercentage,
-    error,
+      dependentField,
+      currencies,
+      pair,
+      pairState,
+      currencyBalances,
+      parsedAmounts,
+      price,
+      noLiquidity,
+      liquidityMinted,
+      poolTokenPercentage,
+      error
   };
+}
+
+export function useMintActionHandlers(
+    noLiquidity: boolean | undefined
+): {
+    onFieldAInput: (typedValue: string) => void;
+    onFieldBInput: (typedValue: string) => void;
+} {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onFieldAInput = useCallback(
+        (typedValue: string) => {
+            dispatch(typeInput({field: Field.CURRENCY_A, typedValue, noLiquidity: noLiquidity === true}));
+        },
+        [dispatch, noLiquidity]
+    );
+    const onFieldBInput = useCallback(
+        (typedValue: string) => {
+            dispatch(typeInput({field: Field.CURRENCY_B, typedValue, noLiquidity: noLiquidity === true}));
+        },
+        [dispatch, noLiquidity]
+    );
+
+    return {
+        onFieldAInput,
+        onFieldBInput
+    };
 }

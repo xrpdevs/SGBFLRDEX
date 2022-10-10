@@ -12,9 +12,7 @@ import {
   updateUserDarkMode,
   updateUserExpertMode,
   updateUserSlippageTolerance,
-  updateUserDeadline,
-  toggleURLWarning,
-  updateUserSingleHopOnly,
+  updateUserDeadline
 } from './actions';
 
 const currentTimestamp = () => new Date().getTime();
@@ -27,8 +25,6 @@ export interface UserState {
   matchesDarkMode: boolean; // whether the dark mode media query matches
 
   userExpertMode: boolean;
-
-  userSingleHopOnly: boolean; // only allow swaps on direct pairs
 
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number;
@@ -50,7 +46,6 @@ export interface UserState {
   };
 
   timestamp: number;
-  URLWarningVisible: boolean;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -61,28 +56,26 @@ export const initialState: UserState = {
   userDarkMode: null,
   matchesDarkMode: false,
   userExpertMode: false,
-  userSingleHopOnly: false,
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
   pairs: {},
-  timestamp: currentTimestamp(),
-  URLWarningVisible: true,
+    timestamp: currentTimestamp()
 };
 
-export default createReducer(initialState, (builder) =>
-  builder
-    .addCase(updateVersion, (state) => {
-      // slippage isnt being tracked in local storage, reset to default
-      // noinspection SuspiciousTypeOfGuard
-      if (typeof state.userSlippageTolerance !== 'number') {
-        state.userSlippageTolerance = INITIAL_ALLOWED_SLIPPAGE;
-      }
+export default createReducer(initialState, builder =>
+    builder
+        .addCase(updateVersion, state => {
+            // slippage isnt being tracked in local storage, reset to default
+            // noinspection SuspiciousTypeOfGuard
+            if (typeof state.userSlippageTolerance !== 'number') {
+                state.userSlippageTolerance = INITIAL_ALLOWED_SLIPPAGE;
+            }
 
-      // deadline isnt being tracked in local storage, reset to default
-      // noinspection SuspiciousTypeOfGuard
-      if (typeof state.userDeadline !== 'number') {
-        state.userDeadline = DEFAULT_DEADLINE_FROM_NOW;
+            // deadline isnt being tracked in local storage, reset to default
+            // noinspection SuspiciousTypeOfGuard
+            if (typeof state.userDeadline !== 'number') {
+                state.userDeadline = DEFAULT_DEADLINE_FROM_NOW;
       }
 
       state.lastUpdateVersionTimestamp = currentTimestamp();
@@ -106,9 +99,6 @@ export default createReducer(initialState, (builder) =>
     .addCase(updateUserDeadline, (state, action) => {
       state.userDeadline = action.payload.userDeadline;
       state.timestamp = currentTimestamp();
-    })
-    .addCase(updateUserSingleHopOnly, (state, action) => {
-      state.userSingleHopOnly = action.payload.userSingleHopOnly;
     })
     .addCase(addSerializedToken, (state, { payload: { serializedToken } }) => {
       state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {};
@@ -138,8 +128,5 @@ export default createReducer(initialState, (builder) =>
         delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
       }
       state.timestamp = currentTimestamp();
-    })
-    .addCase(toggleURLWarning, (state) => {
-      state.URLWarningVisible = !state.URLWarningVisible;
     })
 );
