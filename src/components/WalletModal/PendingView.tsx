@@ -67,7 +67,7 @@ export default function PendingView({
   connector,
   error = false,
   setPendingError,
-  tryActivation
+  tryActivation,
 }: {
   connector?: AbstractConnector;
   error?: boolean;
@@ -100,17 +100,17 @@ export default function PendingView({
           )}
         </LoadingWrapper>
       </LoadingMessage>
-        {Object.keys(SUPPORTED_WALLETS).map(key => {
-            const option = SUPPORTED_WALLETS[key];
-            if (option.connector === connector) {
-                if (option.connector === injected) {
-                    if (isMetamask && option.name !== 'MetaMask') {
-                        return null;
-                    }
-                    if (!isMetamask && option.name === 'MetaMask') {
-                        return null;
-                    }
-                }
+      {Object.keys(SUPPORTED_WALLETS).map((key) => {
+        const option = SUPPORTED_WALLETS[key];
+        if (option.connector === connector) {
+          if (option.connector === injected) {
+            if (isMetamask && option.name !== 'MetaMask') {
+              return null;
+            }
+            if (!isMetamask && option.name === 'MetaMask') {
+              return null;
+            }
+          }
           return (
             <Option
               id={`connect-${key}`}

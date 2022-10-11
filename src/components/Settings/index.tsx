@@ -1,28 +1,35 @@
-import React, {useRef, useContext, useState} from 'react';
-import {Settings, X} from 'react-feather';
-import styled from 'styled-components';
-import {useOnClickOutside} from '../../hooks/useOnClickOutside';
-import {useUserSlippageTolerance, useExpertModeManager, useUserDeadline} from '../../state/user/hooks';
-//useDarkModeManager
-import TransactionSettings from '../TransactionSettings';
-import {RowFixed, RowBetween} from '../Row';
-import {TYPE} from '../../theme';
-import QuestionHelper from '../QuestionHelper';
-import Toggle from '../Toggle';
-import {ThemeContext} from 'styled-components';
-import {AutoColumn} from '../Column';
-import {ButtonError} from '../Button';
-import {useSettingsMenuOpen, useToggleSettingsMenu} from '../../state/application/hooks';
-import {Text} from 'rebass';
+import React, { useContext, useRef, useState } from 'react';
+import { Settings, X } from 'react-feather';
+import { Text } from 'rebass';
+import styled, { ThemeContext } from 'styled-components';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { ApplicationModal } from '../../state/application/actions';
+import { useModalOpen, useToggleSettingsMenu } from '../../state/application/hooks';
+import {
+  useExpertModeManager,
+  useUserTransactionTTL,
+  useUserSlippageTolerance,
+  useUserSingleHopOnly,
+} from '../../state/user/hooks';
+import { TYPE } from '../../theme';
+import { ButtonError } from '../Button';
+import { AutoColumn } from '../Column';
 import Modal from '../Modal';
-import {useTranslation} from 'react-i18next';
+import QuestionHelper from '../QuestionHelper';
+import { RowBetween, RowFixed } from '../Row';
+import Toggle from '../Toggle';
+import TransactionSettings from '../TransactionSettings';
 
 const StyledMenuIcon = styled(Settings)`
   height: 20px;
   width: 20px;
 
   > * {
-    stroke: ${({theme}) => theme.text1};
+    stroke: ${({ theme }) => theme.text2};
+  }
+
+  :hover {
+    opacity: 0.7;
   }
 `;
 
@@ -47,7 +54,6 @@ const StyledMenuButton = styled.button`
   margin: 0;
   padding: 0;
   height: 35px;
-  background-color: ${({theme}) => theme.bg3};
 
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
@@ -56,7 +62,6 @@ const StyledMenuButton = styled.button`
   :focus {
     cursor: pointer;
     outline: none;
-    background-color: ${({theme}) => theme.bg4};
   }
 
   svg {
@@ -82,13 +87,11 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.span`
   min-width: 20.125rem;
-  background-color: ${({theme}) => theme.bg1};
+  background-color: ${({ theme }) => theme.bg2};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
-
-  border: 1px solid ${({theme}) => theme.bg3};
-
-  border-radius: 0.5rem;
+  border: 1px solid ${({ theme }) => theme.bg4};
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   font-size: 1rem;
@@ -97,9 +100,8 @@ const MenuFlyout = styled.span`
   right: 0rem;
   z-index: 100;
 
-  ${({theme}) => theme.mediaWidth.upToExtraSmall`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     min-width: 18.125rem;
-    right: -46px;
   `};
 `;
 
@@ -119,19 +121,18 @@ const ModalContentWrapper = styled.div`
 `;
 
 export default function SettingsTab() {
-    const node = useRef<HTMLDivElement>();
-    const open = useSettingsMenuOpen();
-    const toggle = useToggleSettingsMenu();
-    const {t} = useTranslation();
+  const node = useRef<HTMLDivElement>();
+  const open = useModalOpen(ApplicationModal.SETTINGS);
+  const toggle = useToggleSettingsMenu();
 
   const theme = useContext(ThemeContext);
   const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance();
 
-    const [deadline, setDeadline] = useUserDeadline();
+  const [ttl, setTtl] = useUserTransactionTTL();
 
   const [expertMode, toggleExpertMode] = useExpertModeManager();
 
-    //const [darkMode, toggleDarkMode] = useDarkModeManager()
+  const [singleHopOnly, setSingleHopOnly] = useUserSingleHopOnly();
 
   // show confirmation view before turning on
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -147,17 +148,18 @@ export default function SettingsTab() {
             <RowBetween style={{ padding: '0 2rem' }}>
               <div />
               <Text fontWeight={500} fontSize={20}>
-                  {t('areYouSure')}
+                Are you sure?
               </Text>
               <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
             </RowBetween>
             <Break />
             <AutoColumn gap="lg" style={{ padding: '0 2rem' }}>
               <Text fontWeight={500} fontSize={20}>
-                  {t('expertModeTips1')}
+                Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result
+                in bad rates and lost funds.
               </Text>
               <Text fontWeight={600} fontSize={20}>
-                  {t('expertModeTips2')}
+                ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
               </Text>
               <ButtonError
                 error={true}
@@ -170,7 +172,7 @@ export default function SettingsTab() {
                 }}
               >
                 <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
-                    {t('turnOnExpertMode')}
+                  Turn On Expert Mode
                 </Text>
               </ButtonError>
             </AutoColumn>
@@ -179,33 +181,33 @@ export default function SettingsTab() {
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
         <StyledMenuIcon />
-          {expertMode && (
-              <EmojiWrapper>
+        {expertMode ? (
+          <EmojiWrapper>
             <span role="img" aria-label="wizard-icon">
               🧙
             </span>
-              </EmojiWrapper>
-          )}
+          </EmojiWrapper>
+        ) : null}
       </StyledMenuButton>
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
-              <Text fontWeight={600} fontSize={14}>
-                  {t('transactionSettings')}
-              </Text>
-              <TransactionSettings
-                  rawSlippage={userSlippageTolerance}
-                  setRawSlippage={setUserslippageTolerance}
-                  deadline={deadline}
-                  setDeadline={setDeadline}
-              />
-              <Text fontWeight={600} fontSize={14}>
-                  {t('interfaceSettings')}
-              </Text>
+            <Text fontWeight={600} fontSize={14}>
+              Transaction Settings
+            </Text>
+            <TransactionSettings
+              rawSlippage={userSlippageTolerance}
+              setRawSlippage={setUserslippageTolerance}
+              deadline={ttl}
+              setDeadline={setTtl}
+            />
+            <Text fontWeight={600} fontSize={14}>
+              Interface Settings
+            </Text>
             <RowBetween>
               <RowFixed>
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                    {t('toggleExpertMode')}
+                  Toggle Expert Mode
                 </TYPE.black>
                 <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
               </RowFixed>
@@ -215,14 +217,27 @@ export default function SettingsTab() {
                 toggle={
                   expertMode
                     ? () => {
-                          toggleExpertMode();
-                          setShowConfirmation(false);
+                        toggleExpertMode();
+                        setShowConfirmation(false);
                       }
-                      : () => {
-                          toggle();
-                          setShowConfirmation(true);
+                    : () => {
+                        toggle();
+                        setShowConfirmation(true);
                       }
                 }
+              />
+            </RowBetween>
+            <RowBetween>
+              <RowFixed>
+                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
+                  Disable Multihops
+                </TYPE.black>
+                <QuestionHelper text="Restricts swaps to direct pairs only." />
+              </RowFixed>
+              <Toggle
+                id="toggle-disable-multihop-button"
+                isActive={singleHopOnly}
+                toggle={() => (singleHopOnly ? setSingleHopOnly(false) : setSingleHopOnly(true))}
               />
             </RowBetween>
           </AutoColumn>
@@ -231,14 +246,3 @@ export default function SettingsTab() {
     </StyledMenu>
   );
 }
-
-/*
-<RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  {t('toggleDarkMode')}
-                </TYPE.black>
-              </RowFixed>
-              <Toggle isActive={darkMode} toggle={toggleDarkMode} />
-            </RowBetween>
-  */

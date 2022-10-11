@@ -4,13 +4,12 @@ import { useLastTruthy } from '../../hooks/useLast';
 import { AdvancedSwapDetails, AdvancedSwapDetailsProps } from './AdvancedSwapDetails';
 
 const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
-  padding-top: calc(16px + 2rem);
-  padding-bottom: 20px;
+  padding-top: calc(8px + 2rem);
+  padding-bottom: 16px;
   margin-top: -2rem;
   width: 100%;
-  max-width: 400px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  max-width: 500px;
+  border-radius: 0 0 1.2rem 1.2rem;
   color: ${({ theme }) => theme.text2};
   background-color: ${({ theme }) => theme.advancedBG};
   z-index: -1;

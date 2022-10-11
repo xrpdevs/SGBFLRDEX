@@ -9,14 +9,14 @@ import Portal from '@reach/portal';
 const PopoverContainer = styled.div<{ show: boolean }>`
   z-index: 9999;
 
-  visibility: ${props => (props.show ? 'visible' : 'hidden')};
-  opacity: ${props => (props.show ? 1 : 0)};
+  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.show ? 1 : 0)};
   transition: visibility 150ms linear, opacity 150ms linear;
 
-  background: ${({theme}) => theme.bg2};
-  border: 1px solid ${({theme}) => theme.bg3};
-  box-shadow: 0 4px 8px 0 ${({theme}) => transparentize(0.9, theme.shadow1)};
-  color: ${({theme}) => theme.text2};
+  background: ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.bg3};
+  box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.9, theme.shadow1)};
+  color: ${({ theme }) => theme.text2};
   border-radius: 8px;
 `;
 
@@ -90,9 +90,9 @@ export default function Popover({ content, show, children, placement = 'auto' }:
     placement,
     strategy: 'fixed',
     modifiers: [
-      {name: 'offset', options: {offset: [8, 8]}},
-      {name: 'arrow', options: {element: arrowElement}}
-    ]
+      { name: 'offset', options: { offset: [8, 8] } },
+      { name: 'arrow', options: { element: arrowElement } },
+    ],
   });
   const updateCallback = useCallback(() => {
     update && update();

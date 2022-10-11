@@ -1,11 +1,11 @@
-import {ChainId} from 'neoswap-sdk';
-import React, {useContext} from 'react';
+import { ChainId } from '@uniswap/sdk';
+import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import Modal from '../Modal';
 import { ExternalLink } from '../../theme';
-import {Text} from 'rebass';
-import {CloseIcon, Spinner} from '../../theme/components';
-import {RowBetween} from '../Row';
+import { Text } from 'rebass';
+import { CloseIcon, CustomLightSpinner } from '../../theme/components';
+import { RowBetween } from '../Row';
 import { AlertTriangle, ArrowUpCircle } from 'react-feather';
 import { ButtonPrimary } from '../Button';
 import { AutoColumn, ColumnCenter } from '../Column';
@@ -22,7 +22,7 @@ const Section = styled(AutoColumn)`
 `;
 
 const BottomSection = styled(Section)`
-  background-color: ${({theme}) => theme.bg2};
+  background-color: ${({ theme }) => theme.bg2};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 `;
@@ -31,20 +31,15 @@ const ConfirmedIcon = styled(ColumnCenter)`
   padding: 60px 0;
 `;
 
-const CustomLightSpinner = styled(Spinner)<{ size: string }>`
-  height: ${({size}) => size};
-  width: ${({size}) => size};
-`;
-
-function ConfirmationPendingContent({onDismiss, pendingText}: { onDismiss: () => void; pendingText: string }) {
-    return (
-        <Wrapper>
-            <Section>
-                <RowBetween>
-                    <div/>
-                    <CloseIcon onClick={onDismiss}/>
-                </RowBetween>
-                <ConfirmedIcon>
+function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
+  return (
+    <Wrapper>
+      <Section>
+        <RowBetween>
+          <div />
+          <CloseIcon onClick={onDismiss} />
+        </RowBetween>
+        <ConfirmedIcon>
           <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
@@ -68,7 +63,7 @@ function ConfirmationPendingContent({onDismiss, pendingText}: { onDismiss: () =>
 function TransactionSubmittedContent({
   onDismiss,
   chainId,
-                                         hash
+  hash,
 }: {
   onDismiss: () => void;
   hash: string | undefined;
@@ -90,12 +85,11 @@ function TransactionSubmittedContent({
           <Text fontWeight={500} fontSize={20}>
             Transaction Submitted
           </Text>
-
           {chainId && hash && (
             <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
-                <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                    View on Moonbeam explorer
-                </Text>
+              <Text fontWeight={500} fontSize={14} color={theme.primary1}>
+                View on Block Explorer
+              </Text>
             </ExternalLink>
           )}
           <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
@@ -113,7 +107,7 @@ export function ConfirmationModalContent({
   title,
   bottomContent,
   onDismiss,
-                                             topContent
+  topContent,
 }: {
   title: string;
   onDismiss: () => void;
@@ -176,7 +170,7 @@ export default function TransactionConfirmationModal({
   attemptingTxn,
   hash,
   pendingText,
-                                                         content
+  content,
 }: ConfirmationModalProps) {
   const { chainId } = useActiveWeb3React();
 

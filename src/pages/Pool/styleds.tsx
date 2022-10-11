@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   position: relative;
+  padding: 1rem;
 `;
 
 export const ClickableText = styled(Text)`
@@ -13,25 +14,28 @@ export const ClickableText = styled(Text)`
 `;
 export const MaxButton = styled.button<{ width: string }>`
   padding: 0.5rem 1rem;
-  background-color: ${({theme}) => theme.primary5};
-  border: 1px solid ${({theme}) => theme.primary5};
+  background-color: ${({ theme }) => theme.primary5};
+  border: 1px solid ${({ theme }) => theme.primary5};
   border-radius: 0.5rem;
   font-size: 1rem;
-  ${({theme}) => theme.mediaWidth.upToSmall`
-    padding: 0.25rem 0.5rem;
-  `};
   font-weight: 500;
   cursor: pointer;
   margin: 0.25rem;
   overflow: hidden;
-  color: ${({theme}) => theme.primary1};
+  transition: 0.2s;
+
   :hover {
-    border: 1px solid ${({theme}) => theme.primary1};
+    opacity: 0.6;
   }
+
   :focus {
-    border: 1px solid ${({theme}) => theme.primary1};
+    border: 1px solid ${({ theme }) => theme.primary1};
     outline: none;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 0.25rem 0.5rem;
+  `};
 `;
 
 export const Dots = styled.span`

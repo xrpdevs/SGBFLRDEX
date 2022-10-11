@@ -1,4 +1,4 @@
-import {Currency, CurrencyAmount, Fraction, Percent} from 'neoswap-sdk';
+import { Currency, CurrencyAmount, Fraction, Percent } from '@uniswap/sdk';
 import React from 'react';
 import { Text } from 'rebass';
 import { ButtonPrimary } from '../../components/Button';
@@ -13,7 +13,7 @@ export function ConfirmAddModalBottom({
   currencies,
   parsedAmounts,
   poolTokenPercentage,
-                                          onAdd
+  onAdd,
 }: {
   noLiquidity?: boolean;
   price?: Fraction;

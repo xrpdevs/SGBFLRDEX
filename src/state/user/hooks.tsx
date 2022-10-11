@@ -1,8 +1,8 @@
-import {ChainId, Pair, Token} from 'neoswap-sdk';
+import { ChainId, Pair, Token } from '@uniswap/sdk';
 import flatMap from 'lodash.flatmap';
 import { useCallback, useMemo } from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS} from '../../constants';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS, LP_TOKEN_NAME, LP_TOKEN_SYMBOL } from '../../constants';
 
 import { useActiveWeb3React } from '../../hooks';
 import { useAllTokens } from '../../hooks/Tokens';
@@ -16,7 +16,9 @@ import {
   updateUserDarkMode,
   updateUserDeadline,
   updateUserExpertMode,
-    updateUserSlippageTolerance
+  updateUserSlippageTolerance,
+  toggleURLWarning,
+  updateUserSingleHopOnly,
 } from './actions';
 
 function serializeToken(token: Token): SerializedToken {
@@ -25,7 +27,7 @@ function serializeToken(token: Token): SerializedToken {
     address: token.address,
     decimals: token.decimals,
     symbol: token.symbol,
-      name: token.name
+    name: token.name,
   };
 }
 
@@ -46,7 +48,7 @@ export function useIsDarkMode(): boolean {
   >(
     ({ user: { matchesDarkMode, userDarkMode } }) => ({
       userDarkMode,
-        matchesDarkMode
+      matchesDarkMode,
     }),
     shallowEqual
   );
@@ -66,7 +68,7 @@ export function useDarkModeManager(): [boolean, () => void] {
 }
 
 export function useIsExpertMode(): boolean {
-    return useSelector<AppState, AppState['user']['userExpertMode']>(state => state.user.userExpertMode);
+  return useSelector<AppState, AppState['user']['userExpertMode']>((state) => state.user.userExpertMode);
 }
 
 export function useExpertModeManager(): [boolean, () => void] {
@@ -80,11 +82,28 @@ export function useExpertModeManager(): [boolean, () => void] {
   return [expertMode, toggleSetExpertMode];
 }
 
+export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) => void] {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const singleHopOnly = useSelector<AppState, AppState['user']['userSingleHopOnly']>(
+    (state) => state.user.userSingleHopOnly
+  );
+
+  const setSingleHopOnly = useCallback(
+    (newSingleHopOnly: boolean) => {
+      dispatch(updateUserSingleHopOnly({ userSingleHopOnly: newSingleHopOnly }));
+    },
+    [dispatch]
+  );
+
+  return [singleHopOnly, setSingleHopOnly];
+}
+
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {
-    const dispatch = useDispatch<AppDispatch>();
-    const userSlippageTolerance = useSelector<AppState, AppState['user']['userSlippageTolerance']>(state => {
-        return state.user.userSlippageTolerance;
-    });
+  const dispatch = useDispatch<AppDispatch>();
+  const userSlippageTolerance = useSelector<AppState, AppState['user']['userSlippageTolerance']>((state) => {
+    return state.user.userSlippageTolerance;
+  });
 
   const setUserSlippageTolerance = useCallback(
     (userSlippageTolerance: number) => {
@@ -96,17 +115,17 @@ export function useUserSlippageTolerance(): [number, (slippage: number) => void]
   return [userSlippageTolerance, setUserSlippageTolerance];
 }
 
-export function useUserDeadline(): [number, (slippage: number) => void] {
-    const dispatch = useDispatch<AppDispatch>();
-    const userDeadline = useSelector<AppState, AppState['user']['userDeadline']>(state => {
-        return state.user.userDeadline;
-    });
+export function useUserTransactionTTL(): [number, (slippage: number) => void] {
+  const dispatch = useDispatch<AppDispatch>();
+  const userDeadline = useSelector<AppState, AppState['user']['userDeadline']>((state) => {
+    return state.user.userDeadline;
+  });
 
-    const setUserDeadline = useCallback(
-        (userDeadline: number) => {
-            dispatch(updateUserDeadline({userDeadline}));
-        },
-        [dispatch]
+  const setUserDeadline = useCallback(
+    (userDeadline: number) => {
+      dispatch(updateUserDeadline({ userDeadline }));
+    },
+    [dispatch]
   );
 
   return [userDeadline, setUserDeadline];
@@ -145,7 +164,7 @@ export function useUserAddedTokens(): Token[] {
 function serializePair(pair: Pair): SerializedPair {
   return {
     token0: serializeToken(pair.token0),
-      token1: serializeToken(pair.token1)
+    token1: serializeToken(pair.token1),
   };
 }
 
@@ -160,13 +179,22 @@ export function usePairAdder(): (pair: Pair) => void {
   );
 }
 
+export function useURLWarningVisible(): boolean {
+  return useSelector((state: AppState) => state.user.URLWarningVisible);
+}
+
+export function useURLWarningToggle(): () => void {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(toggleURLWarning()), [dispatch]);
+}
+
 /**
  * Given two tokens return the liquidity token that represents its liquidity shares
  * @param tokenA one of the two tokens
  * @param tokenB the other token
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
-    return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'UNI-V2', 'Uniswap V2');
+  return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, LP_TOKEN_SYMBOL, LP_TOKEN_NAME);
 }
 
 /**
@@ -182,21 +210,21 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(
     () =>
-        chainId
-            ? flatMap(Object.keys(tokens), tokenAddress => {
-                const token = tokens[tokenAddress];
-                // for each token on the current chain,
-                return (
-                    // loop though all bases on the current chain
-                    (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
-                        // to construct pairs of the given token with each base
-                        .map(base => {
-                            if (base.address === token.address) {
-                                return null;
-                            } else {
-                                return [base, token];
-                            }
-                        })
+      chainId
+        ? flatMap(Object.keys(tokens), (tokenAddress) => {
+            const token = tokens[tokenAddress];
+            // for each token on the current chain,
+            return (
+              // loop though all bases on the current chain
+              (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
+                // to construct pairs of the given token with each base
+                .map((base) => {
+                  if (base.address === token.address) {
+                    return null;
+                  } else {
+                    return [base, token];
+                  }
+                })
                 .filter((p): p is [Token, Token] => p !== null)
             );
           })
@@ -207,32 +235,31 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   // pairs saved by users
   const savedSerializedPairs = useSelector<AppState, AppState['user']['pairs']>(({ user: { pairs } }) => pairs);
 
-    const userPairs: [Token, Token][] = useMemo(() => {
-        if (!chainId || !savedSerializedPairs) return [];
-        const forChain = savedSerializedPairs[chainId];
-        if (!forChain) return [];
+  const userPairs: [Token, Token][] = useMemo(() => {
+    if (!chainId || !savedSerializedPairs) return [];
+    const forChain = savedSerializedPairs[chainId];
+    if (!forChain) return [];
 
-        return Object.keys(forChain).map(pairId => {
-            return [deserializeToken(forChain[pairId].token0), deserializeToken(forChain[pairId].token1)];
-        });
-    }, [savedSerializedPairs, chainId]);
+    return Object.keys(forChain).map((pairId) => {
+      return [deserializeToken(forChain[pairId].token0), deserializeToken(forChain[pairId].token1)];
+    });
+  }, [savedSerializedPairs, chainId]);
 
-    const combinedList = useMemo(() => userPairs.concat(generatedPairs).concat(pinnedPairs), [
-        generatedPairs,
-        pinnedPairs,
-        userPairs
-    ]);
+  const combinedList = useMemo(
+    () => userPairs.concat(generatedPairs).concat(pinnedPairs),
+    [generatedPairs, pinnedPairs, userPairs]
+  );
 
-    return useMemo(() => {
-        // dedupes pairs of tokens in the combined list
-        const keyed = combinedList.reduce<{ [key: string]: [Token, Token] }>((memo, [tokenA, tokenB]) => {
-            const sorted = tokenA.sortsBefore(tokenB);
-            const key = sorted ? `${tokenA.address}:${tokenB.address}` : `${tokenB.address}:${tokenA.address}`;
-            if (memo[key]) return memo;
-            memo[key] = sorted ? [tokenA, tokenB] : [tokenB, tokenA];
-            return memo;
-        }, {});
+  return useMemo(() => {
+    // dedupes pairs of tokens in the combined list
+    const keyed = combinedList.reduce<{ [key: string]: [Token, Token] }>((memo, [tokenA, tokenB]) => {
+      const sorted = tokenA.sortsBefore(tokenB);
+      const key = sorted ? `${tokenA.address}:${tokenB.address}` : `${tokenB.address}:${tokenA.address}`;
+      if (memo[key]) return memo;
+      memo[key] = sorted ? [tokenA, tokenB] : [tokenB, tokenA];
+      return memo;
+    }, {});
 
-        return Object.keys(keyed).map(key => keyed[key]);
+    return Object.keys(keyed).map((key) => keyed[key]);
   }, [combinedList]);
 }

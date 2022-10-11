@@ -1,5 +1,5 @@
-import {Trade, TradeType} from 'neoswap-sdk';
-import React, {useContext, useMemo} from 'react';
+import { Trade, TradeType } from '@uniswap/sdk';
+import React, { useContext, useMemo } from 'react';
 import { ArrowDown, AlertTriangle } from 'react-feather';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
@@ -18,7 +18,7 @@ export default function SwapModalHeader({
   allowedSlippage,
   recipient,
   showAcceptChanges,
-                                            onAcceptChanges
+  onAcceptChanges,
 }: {
   trade: Trade;
   allowedSlippage: number;
@@ -26,20 +26,20 @@ export default function SwapModalHeader({
   showAcceptChanges: boolean;
   onAcceptChanges: () => void;
 }) {
-    const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
-        trade,
-        allowedSlippage
-    ]);
-    const {priceImpactWithoutFee} = useMemo(() => computeTradePriceBreakdown(trade), [trade]);
-    const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
+    [trade, allowedSlippage]
+  );
+  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade]);
+  const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
 
-    const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
 
-    return (
-        <AutoColumn gap={'md'} style={{marginTop: '20px'}}>
-            <RowBetween align="flex-end">
-                <RowFixed gap={'0px'}>
-                    <CurrencyLogo currency={trade.inputAmount.currency} size={'24px'} style={{marginRight: '12px'}}/>
+  return (
+    <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
+      <RowBetween align="flex-end">
+        <RowFixed gap={'0px'}>
+          <CurrencyLogo currency={trade.inputAmount.currency} size={'24px'} style={{ marginRight: '12px' }} />
           <TruncatedText
             fontSize={24}
             fontWeight={500}

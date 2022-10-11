@@ -1,6 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import styled, {ThemeContext} from 'styled-components';
-import {useTranslation} from 'react-i18next';
+import styled, { ThemeContext } from 'styled-components';
 
 import QuestionHelper from '../QuestionHelper';
 import { TYPE } from '../../theme';
@@ -12,11 +11,11 @@ import { darken } from 'polished';
 enum SlippageError {
   InvalidInput = 'InvalidInput',
   RiskyLow = 'RiskyLow',
-  RiskyHigh = 'RiskyHigh'
+  RiskyHigh = 'RiskyHigh',
 }
 
 enum DeadlineError {
-  InvalidInput = 'InvalidInput'
+  InvalidInput = 'InvalidInput',
 }
 
 const FancyButton = styled.button`
@@ -24,9 +23,9 @@ const FancyButton = styled.button`
   align-items: center;
   height: 2rem;
   border-radius: 36px;
-  font-size: 12px;
+  font-size: 1rem;
   width: auto;
-  min-width: 3rem;
+  min-width: 3.5rem;
   border: 1px solid ${({ theme }) => theme.bg3};
   outline: none;
   background: ${({ theme }) => theme.bg1};
@@ -95,7 +94,6 @@ export interface SlippageTabsProps {
 
 export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, setDeadline }: SlippageTabsProps) {
   const theme = useContext(ThemeContext);
-  const {t} = useTranslation();
 
   const inputRef = useRef<HTMLInputElement>();
 
@@ -151,7 +149,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
       <AutoColumn gap="sm">
         <RowFixed>
           <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-            {t('slippageTolerance')}
+            Slippage tolerance
           </TYPE.black>
           <QuestionHelper text="Your transaction will revert if the price changes unfavorably by more than this percentage." />
         </RowFixed>
@@ -195,14 +193,14 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               ) : null}
               {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
               <Input
-                  ref={inputRef as any}
-                  placeholder={(rawSlippage / 100).toFixed(2)}
-                  value={slippageInput}
-                  onBlur={() => {
-                    parseCustomSlippage((rawSlippage / 100).toFixed(2));
-                  }}
-                  onChange={e => parseCustomSlippage(e.target.value)}
-                  color={!slippageInputIsValid ? 'red' : ''}
+                ref={inputRef as any}
+                placeholder={(rawSlippage / 100).toFixed(2)}
+                value={slippageInput}
+                onBlur={() => {
+                  parseCustomSlippage((rawSlippage / 100).toFixed(2));
+                }}
+                onChange={(e) => parseCustomSlippage(e.target.value)}
+                color={!slippageInputIsValid ? 'red' : ''}
               />
               %
             </RowBetween>
@@ -213,7 +211,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
             style={{
               fontSize: '14px',
               paddingTop: '7px',
-              color: slippageError === SlippageError.InvalidInput ? 'red' : '#F3841E'
+              color: slippageError === SlippageError.InvalidInput ? 'red' : '#F3841E',
             }}
           >
             {slippageError === SlippageError.InvalidInput
@@ -228,24 +226,24 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
       <AutoColumn gap="sm">
         <RowFixed>
           <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-            {t('transactionDeadline')}
+            Transaction deadline
           </TYPE.black>
           <QuestionHelper text="Your transaction will revert if it is pending for more than this long." />
         </RowFixed>
         <RowFixed>
           <OptionCustom style={{ width: '80px' }} tabIndex={-1}>
             <Input
-                color={!!deadlineError ? 'red' : undefined}
-                onBlur={() => {
+              color={!!deadlineError ? 'red' : undefined}
+              onBlur={() => {
                 parseCustomDeadline((deadline / 60).toString());
               }}
-                placeholder={(deadline / 60).toString()}
-                value={deadlineInput}
-                onChange={e => parseCustomDeadline(e.target.value)}
+              placeholder={(deadline / 60).toString()}
+              value={deadlineInput}
+              onChange={(e) => parseCustomDeadline(e.target.value)}
             />
           </OptionCustom>
           <TYPE.body style={{ paddingLeft: '8px' }} fontSize={14}>
-            {t('minutes')}
+            minutes
           </TYPE.body>
         </RowFixed>
       </AutoColumn>

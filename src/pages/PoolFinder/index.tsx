@@ -1,5 +1,5 @@
-import {Currency, DEV, JSBI, TokenAmount} from 'neoswap-sdk';
-import React, {useCallback, useEffect, useState} from 'react';
+import { Currency, ETHER, JSBI, TokenAmount } from '@uniswap/sdk';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Plus } from 'react-feather';
 import { Text } from 'rebass';
 import { ButtonDropdownLight } from '../../components/Button';
@@ -18,10 +18,12 @@ import { StyledInternalLink } from '../../theme';
 import { currencyId } from '../../utils/currencyId';
 import AppBody from '../AppBody';
 import { Dots } from '../Pool/styleds';
+import { BlueCard } from '../../components/Card';
+import { TYPE } from '../../theme';
 
 enum Fields {
   TOKEN0 = 0,
-  TOKEN1 = 1
+  TOKEN1 = 1,
 }
 
 export default function PoolFinder() {
@@ -30,8 +32,8 @@ export default function PoolFinder() {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);
 
-    const [currency0, setCurrency0] = useState<Currency | null>(DEV);
-    const [currency1, setCurrency1] = useState<Currency | null>(null);
+  const [currency0, setCurrency0] = useState<Currency | null>(ETHER);
+  const [currency1, setCurrency1] = useState<Currency | null>(null);
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined);
   const addPair = usePairAdder();
@@ -78,18 +80,25 @@ export default function PoolFinder() {
 
   return (
     <AppBody>
-        <FindPoolTabs/>
-        <AutoColumn gap="md">
-            <ButtonDropdownLight
-                onClick={() => {
-                    setShowSearch(true);
-                    setActiveField(Fields.TOKEN0);
-                }}
-            >
-                {currency0 ? (
-                    <Row>
-                        <CurrencyLogo currency={currency0}/>
-                        <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
+      <FindPoolTabs />
+      <AutoColumn style={{ padding: '1rem' }} gap="md">
+        <BlueCard>
+          <AutoColumn gap="10px">
+            <TYPE.link fontWeight={400} color={'primaryText1'}>
+              <b>Tip:</b> Use this tool to find pairs that don&apos;t automatically appear in the interface.
+            </TYPE.link>
+          </AutoColumn>
+        </BlueCard>
+        <ButtonDropdownLight
+          onClick={() => {
+            setShowSearch(true);
+            setActiveField(Fields.TOKEN0);
+          }}
+        >
+          {currency0 ? (
+            <Row>
+              <CurrencyLogo currency={currency0} />
+              <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
                 {currency0.symbol}
               </Text>
             </Row>
@@ -131,6 +140,9 @@ export default function PoolFinder() {
             <Text textAlign="center" fontWeight={500}>
               Pool Found!
             </Text>
+            <StyledInternalLink to={`/pool`}>
+              <Text textAlign="center">Manage this pool.</Text>
+            </StyledInternalLink>
           </ColumnCenter>
         )}
 

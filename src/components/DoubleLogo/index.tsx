@@ -1,4 +1,4 @@
-import {Currency} from 'neoswap-sdk';
+import { Currency } from '@uniswap/sdk';
 import React from 'react';
 import styled from 'styled-components';
 import CurrencyLogo from '../CurrencyLogo';
@@ -22,14 +22,14 @@ const HigherLogo = styled(CurrencyLogo)`
 `;
 const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
   position: absolute;
-  left: ${({sizeraw}) => (sizeraw / 2).toString() + 'px'};
+  left: ${({ sizeraw }) => '-' + (sizeraw / 2).toString() + 'px'} !important;
 `;
 
 export default function DoubleCurrencyLogo({
   currency0,
   currency1,
   size = 16,
-                                             margin = false
+  margin = false,
 }: DoubleCurrencyLogoProps) {
   return (
     <Wrapper sizeraw={size} margin={margin}>

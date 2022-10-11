@@ -1,24 +1,25 @@
-import {Currency, CurrencyAmount, currencyEquals, DEV, Token} from 'neoswap-sdk';
-import React, {CSSProperties, MutableRefObject, useCallback, useMemo} from 'react';
-import {FixedSizeList} from 'react-window';
-import {Text} from 'rebass';
-import styled from 'styled-components';
-import {useActiveWeb3React} from '../../hooks';
-import {useSelectedTokenList, WrappedTokenInfo} from '../../state/lists/hooks';
-import {useAddUserToken, useRemoveUserAddedToken} from '../../state/user/hooks';
-import {useCurrencyBalance} from '../../state/wallet/hooks';
-import {LinkStyledButton, TYPE} from '../../theme';
-import {useIsUserAddedToken} from '../../hooks/Tokens';
-import Column from '../Column';
-import {RowFixed} from '../Row';
-import CurrencyLogo from '../CurrencyLogo';
-import {MouseoverTooltip} from '../Tooltip';
-import {FadedSpan, MenuItem} from './styleds';
-import Loader from '../Loader';
-import {isTokenOnList} from '../../utils';
+import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from "@uniswap/sdk";
+import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "react";
+import { FixedSizeList } from "react-window";
+import { Text } from "rebass";
+import styled from "styled-components";
+import { useActiveWeb3React } from "../../hooks";
+import { useCombinedActiveList, WrappedTokenInfo } from "../../state/lists/hooks";
+import { useCurrencyBalance } from "../../state/wallet/hooks";
+import { TYPE } from "../../theme";
+import { useAllInactiveTokens, useIsUserAddedToken } from "../../hooks/Tokens";
+import Column from "../Column";
+import { RowFixed } from "../Row";
+import CurrencyLogo from "../CurrencyLogo";
+import { MouseoverTooltip } from "../Tooltip";
+import { MenuItem } from "./styleds";
+import Loader from "../Loader";
+import { isTokenOnList } from "../../utils";
+import ImportRow from "./ImportRow";
+import { wrappedCurrency } from "utils/wrappedCurrency";
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === DEV ? 'DEV' : '';
+  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : '';
 }
 
 const StyledBalanceText = styled(Text)`
@@ -85,7 +86,7 @@ function CurrencyRow({
   onSelect,
   isSelected,
   otherSelected,
-                       style
+  style,
 }: {
   currency: Currency;
   onSelect: () => void;
@@ -93,60 +94,32 @@ function CurrencyRow({
   otherSelected: boolean;
   style: CSSProperties;
 }) {
-  const {account, chainId} = useActiveWeb3React();
+  const { account } = useActiveWeb3React();
   const key = currencyKey(currency);
-  const selectedTokenList = useSelectedTokenList();
+  const selectedTokenList = useCombinedActiveList();
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency);
   const customAdded = useIsUserAddedToken(currency);
   const balance = useCurrencyBalance(account ?? undefined, currency);
 
-  const removeToken = useRemoveUserAddedToken();
-  const addToken = useAddUserToken();
-
   // only show add or remove buttons if not on selected list
   return (
-      <MenuItem
-          style={style}
-          className={`token-item-${key}`}
-          onClick={() => (isSelected ? null : onSelect())}
-          disabled={isSelected}
-          selected={otherSelected}
-      >
-        <CurrencyLogo currency={currency} size={'24px'}/>
-        <Column>
-          <Text title={currency.name} fontWeight={500}>
-            {currency.symbol}
-          </Text>
-          <FadedSpan>
-            {!isOnSelectedList && customAdded ? (
-                <TYPE.main fontWeight={500}>
-                  Added by user
-                  <LinkStyledButton
-                      onClick={event => {
-                        event.stopPropagation();
-                        if (chainId && currency instanceof Token) removeToken(chainId, currency.address);
-                      }}
-                  >
-                    (Remove)
-                  </LinkStyledButton>
-                </TYPE.main>
-            ) : null}
-            {!isOnSelectedList && !customAdded ? (
-                <TYPE.main fontWeight={500}>
-                  Found by address
-                  <LinkStyledButton
-                      onClick={event => {
-                        event.stopPropagation();
-                        if (currency instanceof Token) addToken(currency);
-                      }}
-                  >
-                    (Add)
-                  </LinkStyledButton>
-                </TYPE.main>
-            ) : null}
-          </FadedSpan>
-        </Column>
-        <TokenTags currency={currency}/>
+    <MenuItem
+      style={style}
+      className={`token-item-${key}`}
+      onClick={() => (isSelected ? null : onSelect())}
+      disabled={isSelected}
+      selected={otherSelected}
+    >
+      <CurrencyLogo currency={currency} size={'24px'} />
+      <Column>
+        <Text title={currency.name} fontWeight={500}>
+          {currency.symbol}
+        </Text>
+        <TYPE.darkGray ml="0px" fontSize={'12px'} fontWeight={300}>
+          {currency.name} {!isOnSelectedList && customAdded && '• Added by user'}
+        </TYPE.darkGray>
+      </Column>
+      <TokenTags currency={currency} />
       <RowFixed style={{ justifySelf: 'flex-end' }}>
         {balance ? <Balance balance={balance} /> : account ? <Loader /> : null}
       </RowFixed>
@@ -161,7 +134,9 @@ export default function CurrencyList({
   onCurrencySelect,
   otherCurrency,
   fixedListRef,
-                                       showETH
+  showETH,
+  showImportView,
+  setImportToken,
 }: {
   height: number;
   currencies: Currency[];
@@ -170,8 +145,16 @@ export default function CurrencyList({
   otherCurrency?: Currency | null;
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>;
   showETH: boolean;
+  showImportView: () => void;
+  setImportToken: (token: Token) => void;
 }) {
-  const itemData = useMemo(() => (showETH ? [Currency.DEV, ...currencies] : currencies), [currencies, showETH]);
+  const itemData = useMemo(() => (showETH ? [ETHER, ...currencies] : currencies), [currencies, showETH]);
+
+  const { chainId } = useActiveWeb3React();
+
+  const inactiveTokens: {
+    [address: string]: Token;
+  } = useAllInactiveTokens();
 
   const Row = useCallback(
     ({ data, index, style }) => {
@@ -179,17 +162,34 @@ export default function CurrencyList({
       const isSelected = Boolean(selectedCurrency && currencyEquals(selectedCurrency, currency));
       const otherSelected = Boolean(otherCurrency && currencyEquals(otherCurrency, currency));
       const handleSelect = () => onCurrencySelect(currency);
-      return (
-          <CurrencyRow
-              style={style}
-              currency={currency}
-              isSelected={isSelected}
-              onSelect={handleSelect}
-              otherSelected={otherSelected}
+
+      const token = wrappedCurrency(currency, chainId);
+
+      const showImport = inactiveTokens && token && Object.keys(inactiveTokens).includes(token.address);
+
+      if (showImport && token) {
+        return (
+          <ImportRow
+            style={style}
+            token={token}
+            showImportView={showImportView}
+            setImportToken={setImportToken}
+            dim={true}
           />
-      );
+        );
+      } else {
+        return (
+          <CurrencyRow
+            style={style}
+            currency={currency}
+            isSelected={isSelected}
+            onSelect={handleSelect}
+            otherSelected={otherSelected}
+          />
+        );
+      }
     },
-      [onCurrencySelect, otherCurrency, selectedCurrency]
+    [chainId, inactiveTokens, onCurrencySelect, otherCurrency, selectedCurrency, setImportToken, showImportView]
   );
 
   const itemKey = useCallback((index: number, data: any) => currencyKey(data[index]), []);

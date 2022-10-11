@@ -1,5 +1,5 @@
-import {Trade, TradeType} from 'neoswap-sdk';
-import React, {useContext} from 'react';
+import { Trade, TradeType } from "@uniswap/sdk";
+import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Field } from '../../state/swap/actions';
 import { useUserSlippageTolerance } from '../../state/user/hooks';
@@ -9,7 +9,6 @@ import { AutoColumn } from '../Column';
 import QuestionHelper from '../QuestionHelper';
 import { RowBetween, RowFixed } from '../Row';
 import FormattedPriceImpact from './FormattedPriceImpact';
-import {SectionBreak} from './styleds';
 import SwapRoute from './SwapRoute';
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
@@ -20,18 +19,17 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
   return (
     <>
-        <AutoColumn style={{padding: '0 20px'}}>
-            <RowBetween>
-                <RowFixed>
-                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                        {isExactIn ? 'Minimum received' : 'Maximum sold'}
-                    </TYPE.black>
-                    <QuestionHelper
-                        text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."/>
-                </RowFixed>
-                <RowFixed>
-                    <TYPE.black color={theme.text1} fontSize={14}>
-                        {isExactIn
+      <AutoColumn style={{ padding: '0 16px' }}>
+        <RowBetween>
+          <RowFixed>
+            <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+              {isExactIn ? 'Minimum received' : 'Maximum sold'}
+            </TYPE.black>
+            <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
+          </RowFixed>
+          <RowFixed>
+            <TYPE.black color={theme.text1} fontSize={14}>
+              {isExactIn
                 ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
                   '-'
                 : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${trade.inputAmount.currency.symbol}` ??
@@ -77,24 +75,22 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const showRoute = Boolean(trade && trade.route.path.length > 2);
 
   return (
-      <AutoColumn gap="md">
-          {trade && (
-              <>
-                  <TradeSummary trade={trade} allowedSlippage={allowedSlippage}/>
-                  {showRoute && (
-                      <>
-                          <SectionBreak/>
-                          <AutoColumn style={{padding: '0 24px'}}>
-                              <RowFixed>
-                                  <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                      Route
-                                  </TYPE.black>
-                                  <QuestionHelper
-                                      text="Routing through these tokens resulted in the best price for your trade."/>
-                              </RowFixed>
-                              <SwapRoute trade={trade}/>
-                          </AutoColumn>
-                      </>
+    <AutoColumn gap="0px">
+      {trade && (
+        <>
+          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+          {showRoute && (
+            <>
+              <RowBetween style={{ padding: '0 16px' }}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                    Route
+                  </TYPE.black>
+                  <QuestionHelper text="Routing through these tokens resulted in the best price for your trade." />
+                </span>
+                <SwapRoute trade={trade} />
+              </RowBetween>
+            </>
           )}
         </>
       )}

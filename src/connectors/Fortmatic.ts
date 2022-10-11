@@ -1,12 +1,18 @@
-import {ChainId} from 'neoswap-sdk';
-import {FortmaticConnector as FortmaticConnectorCore} from '@web3-react/fortmatic-connector';
+import { ChainId } from '@uniswap/sdk';
+import { FortmaticConnector as FortmaticConnectorCore } from '@web3-react/fortmatic-connector';
 
 export const OVERLAY_READY = 'OVERLAY_READY';
 
-type FormaticSupportedChains = Extract<ChainId, ChainId.MAINNET>;
+type FormaticSupportedChains = Extract<ChainId, ChainId.MAINNET | ChainId.ROPSTEN | ChainId.RINKEBY | ChainId.KOVAN | ChainId.BITGERT | ChainId.DOGE | ChainId.DOKEN>;
 
 const CHAIN_ID_NETWORK_ARGUMENT: { readonly [chainId in FormaticSupportedChains]: string | undefined } = {
-    [ChainId.MAINNET]: undefined
+  [ChainId.MAINNET]: undefined,
+  [ChainId.ROPSTEN]: 'ropsten',
+  [ChainId.RINKEBY]: 'rinkeby',
+  [ChainId.KOVAN]: 'kovan',
+  [ChainId.BITGERT]: 'BITGERT',
+  [ChainId.DOGE]: 'DOGE',
+  [ChainId.DOKEN]: 'DOKEN',
 };
 
 export class FortmaticConnector extends FortmaticConnectorCore {
@@ -24,19 +30,19 @@ export class FortmaticConnector extends FortmaticConnectorCore {
 
     const provider = this.fortmatic.getProvider();
 
-      const pollForOverlayReady = new Promise(resolve => {
-          const interval = setInterval(() => {
-              if (provider.overlayReady) {
-                  clearInterval(interval);
-                  this.emit(OVERLAY_READY);
-                  resolve();
-              }
-          }, 200);
-      });
+    const pollForOverlayReady = new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (provider.overlayReady) {
+          clearInterval(interval);
+          this.emit(OVERLAY_READY);
+          resolve();
+        }
+      }, 200);
+    });
 
     const [account] = await Promise.all([
       provider.enable().then((accounts: string[]) => accounts[0]),
-        pollForOverlayReady
+      pollForOverlayReady,
     ]);
 
     return { provider: this.fortmatic.getProvider(), chainId: (this as any).chainId, account };

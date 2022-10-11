@@ -1,8 +1,8 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists';
-import React, {useCallback, useMemo} from 'react';
-import ReactGA from 'react-ga';
-import {useDispatch} from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Text } from 'rebass';
+import styled from 'styled-components';
 import { AppDispatch } from '../../state';
 import { useRemovePopup } from '../../state/application/hooks';
 import { acceptListUpdate } from '../../state/lists/actions';
@@ -12,12 +12,17 @@ import { ButtonSecondary } from '../Button';
 import { AutoColumn } from '../Column';
 import { AutoRow } from '../Row';
 
+export const ChangesList = styled.ul`
+  max-height: 400px;
+  overflow: auto;
+`;
+
 export default function ListUpdatePopup({
   popKey,
   listUrl,
   oldList,
   newList,
-                                            auto
+  auto,
 }: {
   popKey: string;
   listUrl: string;
@@ -30,24 +35,23 @@ export default function ListUpdatePopup({
   const dispatch = useDispatch<AppDispatch>();
 
   const handleAcceptUpdate = useCallback(() => {
-      if (auto) return;
-      ReactGA.event({
-          category: 'Lists',
-          action: 'Update List from Popup',
-          label: listUrl
-      });
-      dispatch(acceptListUpdate(listUrl));
-      removeThisPopup();
+    if (auto) return;
+    dispatch(acceptListUpdate(listUrl));
+    removeThisPopup();
   }, [auto, dispatch, listUrl, removeThisPopup]);
 
-    const {added: tokensAdded, changed: tokensChanged, removed: tokensRemoved} = useMemo(() => {
-        return diffTokenLists(oldList.tokens, newList.tokens);
-    }, [newList.tokens, oldList.tokens]);
-    const numTokensChanged = useMemo(
-        () =>
-            Object.keys(tokensChanged).reduce((memo, chainId: any) => memo + Object.keys(tokensChanged[chainId]).length, 0),
-        [tokensChanged]
-    );
+  const {
+    added: tokensAdded,
+    changed: tokensChanged,
+    removed: tokensRemoved,
+  } = useMemo(() => {
+    return diffTokenLists(oldList.tokens, newList.tokens);
+  }, [newList.tokens, oldList.tokens]);
+  const numTokensChanged = useMemo(
+    () =>
+      Object.keys(tokensChanged).reduce((memo, chainId: any) => memo + Object.keys(tokensChanged[chainId]).length, 0),
+    [tokensChanged]
+  );
 
   return (
     <AutoRow>
@@ -60,35 +64,35 @@ export default function ListUpdatePopup({
         ) : (
           <>
             <div>
-                <Text>
-                    An update is available for the token list &quot;{oldList.name}&quot; (
-                    {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
-                </Text>
-                <ul>
-                    {tokensAdded.length > 0 ? (
-                        <li>
-                            {tokensAdded.map((token, i) => (
-                                <React.Fragment key={`${token.chainId}-${token.address}`}>
-                                    <strong title={token.address}>{token.symbol}</strong>
-                                    {i === tokensAdded.length - 1 ? null : ', '}
-                                </React.Fragment>
-                            ))}{' '}
-                            added
-                        </li>
+              <Text>
+                An update is available for the token list &quot;{oldList.name}&quot; (
+                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+              </Text>
+              <ChangesList>
+                {tokensAdded.length > 0 ? (
+                  <li>
+                    {tokensAdded.map((token, i) => (
+                      <React.Fragment key={`${token.chainId}-${token.address}`}>
+                        <strong title={token.address}>{token.symbol}</strong>
+                        {i === tokensAdded.length - 1 ? null : ', '}
+                      </React.Fragment>
+                    ))}{' '}
+                    added
+                  </li>
                 ) : null}
                 {tokensRemoved.length > 0 ? (
                   <li>
-                      {tokensRemoved.map((token, i) => (
-                          <React.Fragment key={`${token.chainId}-${token.address}`}>
-                              <strong title={token.address}>{token.symbol}</strong>
-                              {i === tokensRemoved.length - 1 ? null : ', '}
-                          </React.Fragment>
-                      ))}{' '}
-                      removed
+                    {tokensRemoved.map((token, i) => (
+                      <React.Fragment key={`${token.chainId}-${token.address}`}>
+                        <strong title={token.address}>{token.symbol}</strong>
+                        {i === tokensRemoved.length - 1 ? null : ', '}
+                      </React.Fragment>
+                    ))}{' '}
+                    removed
                   </li>
                 ) : null}
-                    {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
-                </ul>
+                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
+              </ChangesList>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>

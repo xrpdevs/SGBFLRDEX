@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text} from 'rebass';
-import {ChainId, Currency, currencyEquals, DEV, Token} from 'neoswap-sdk';
+import { Text } from 'rebass';
+import { ChainId, Currency, currencyEquals, ETHER, Token } from '@uniswap/sdk';
 import styled from 'styled-components';
 
 import { SUGGESTED_BASES } from '../../constants';
@@ -28,7 +28,7 @@ const BaseWrapper = styled.div<{ disable?: boolean }>`
 export default function CommonBases({
   chainId,
   onSelect,
-                                        selectedCurrency
+  selectedCurrency,
 }: {
   chainId?: ChainId;
   selectedCurrency?: Currency | null;
@@ -44,17 +44,17 @@ export default function CommonBases({
       </AutoRow>
       <AutoRow gap="4px">
         <BaseWrapper
-            onClick={() => {
-                if (!selectedCurrency || !currencyEquals(selectedCurrency, DEV)) {
-                    onSelect(DEV);
-                }
-            }}
-            disable={selectedCurrency === DEV}
+          onClick={() => {
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
+              onSelect(ETHER);
+            }
+          }}
+          disable={selectedCurrency === ETHER}
         >
-            <CurrencyLogo currency={DEV} style={{marginRight: 8}}/>
-            <Text fontWeight={500} fontSize={16}>
-                DEV
-            </Text>
+          <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
+          <Text fontWeight={500} fontSize={16}>
+            ETH
+          </Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address;

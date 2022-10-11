@@ -1,5 +1,5 @@
-import {ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType} from 'neoswap-sdk';
-import {computeTradePriceBreakdown} from './prices';
+import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@uniswap/sdk';
+import { computeTradePriceBreakdown } from './prices';
 
 describe('prices', () => {
   const token1 = new Token(ChainId.MAINNET, '0x0000000000000000000000000000000000000001', 18);
@@ -13,7 +13,7 @@ describe('prices', () => {
     it('returns undefined for undefined', () => {
       expect(computeTradePriceBreakdown(undefined)).toEqual({
         priceImpactWithoutFee: undefined,
-          realizedLPFee: undefined
+        realizedLPFee: undefined,
       });
     });
 

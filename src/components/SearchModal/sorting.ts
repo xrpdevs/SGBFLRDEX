@@ -1,5 +1,5 @@
-import {Token, TokenAmount} from 'neoswap-sdk';
-import {useMemo} from 'react';
+import { Token, TokenAmount } from '@uniswap/sdk';
+import { useMemo } from 'react';
 import { useAllTokenBalances } from '../../state/wallet/hooks';
 
 // compare two token amounts with highest one coming first

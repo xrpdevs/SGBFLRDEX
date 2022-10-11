@@ -1,50 +1,29 @@
-# Classic DEX Example forked from Sushiswap-Classic-Exchange (Uniswap)
+# Uniswap Template for new Chains
+forked from https://github.com/1azy-guy/CoolSwap-interface
 
-Forked from [sushiswap/sushiswap-classic-exchange](https://github.com/sushiswap/sushiswap-classic-exchange), and updated
-for both a Moonbase Standalone Node and Moonbase Alpha.
+Template for deploying and operating a custom Uniswap.
+this is th Frontend and to use it with a custom Uniswap following parameters needs replacement:
+<CHAIN_NAME>: name of the Blockchain in Caps and no spaces e.g.: MOONBEAM
+<chain_name>: name of chain, can contain spaces e.g.: Moonbeam
+<chain_name_lower>: name of the chain in lowercase e.g.g: moonbeam
+<chain_id>: chain_id as integer e.g.: 1284
+<rpc_url>: url to an RPC endpoint of the chain e.g.: https://rpc.api.moonbeam.network
+<factory_address>: address of the Factory smart Contract e.g.: 0x1FabE390868058C746Ff151032b79b910e4194cb
+<router_address>: address of the Router02 smart contract e.g.: 0x2d78c1F4Eb5F3A6065E0038a5D1F3577f9062e92
+<multicall_address>: address of the multicall smart contract e.g.: 0xA63dc61430B5b2c1C18D39d753b49C12C2AA9091
+<init_code_hash>: hash of the pool init code e.g.: 0x1892ee6b3b8f653471529d0b06a772bdc5588bb0b15607cb427c8148f70004a9
+<NATIVE_TOKEN_SYMBOL>: symbol of the native token written in caps e.g.: GLMR
+<WRAPPED_NATIVE_TOKEN_SYMBOL>: symbol of the wrapped native token written in caps e.g.: WGLMR
+<native_token>: name of the native token, allowed to contain spaces e.g.: Glimmer
+<wrapped_native_token>: name of the wrapped native token, allowed to contain spaces e.g.: Wrapped Glimmer
+<native_token_address>: address of the wrapped native Token e.g.: 0xAcc15dC74880C9944775448304B263D191c6077F
+<native_token_decimals>: decimal places of the wrapped native token, mostly 18 e.g.: 18
+<lp_token_symbol>: symbol of the liquidity provision token e.g.: SWAP-LP
+<lp_token_name>: name of the Liquidity Provision token e.g.: Swap-LP-Token
+<site_name>: name of the website, can contain spaces e.g.: Moonbeam-Swap
 
-## Moonbase Standalone Addresses
 
-If you use the [following repository](https://github.com/albertov19/uniswap-contracts-moonbeam): your contracts should
-have the following addresses:
-
-```
-      "WETH": "0xC2Bf5F29a4384b1aB0C063e1c666f02121B6084a",
-      "factory": "0x5c4242beB94dE30b922f57241f1D02f36e906915",
-      "router": "0x42e2EE7Ba8975c473157634Ac2AF4098190fc741",
-      "multicall": "0xF8cef78E923919054037a1D03662bBD884fF4edf",
-      "init_code_hash": "0x01429e880a7972ebfbba904a5bbe32a816e78273e4b38ffa6bdeaebce8adba7c",
-      "tok1": "0xe573BCA813c741229ffB2488F7856C6cAa841041",
-      "tok2": "0xBb0CC0fb3e0c06725c67167501f850B4900D6DB5"
-```
-
-## Moonbase Alpha Addresses
-
-To make the interface work with your Moonbase Alpha deployment, you need to modify the `./src/moonbase_address.json`.
-Also make sure that you modify the addresses in the SDK repo.
-
-On Moonbase Alpha, these are the following addresses:
-
-```
-      "WETH": "0x1c94B4e46D35c27Ed241c8e9E2c91a7FB443CEdc",
-      "Factory": "0x3584446E08A4433f3b57d0D53A4338A282fB570D",
-      "Router": "0x56a82ED340bB2CFa87777b1C42adE7F687A2196a",
-      "multicall": "0xE3701304F4d224B738Dc7a22f216884B815aef12",
-      "init_code_hash": "0x01429e880a7972ebfbba904a5bbe32a816e78273e4b38ffa6bdeaebce8adba7c",
-      "tok1": "0x825458b871FC6582d94c6d2BCe887897DFD9EDA2",
-      "tok2": "0xF8f525327D199F340D60d4b3ee847B5d49a28E3C"
-```
-
-## Build
-
-Install packages:
-
-```
-npm i
-```
-
-Run:
-
-```
-npm start
-```
+also:
+Token List in forks/@uniswap/default-token-list/build/uniswap-dafault.tokenlist.json needs to be edited for default token list
+ethereum logo under src/assets/images/ethereum-logo.png must be replaced with native currency logo of the chain
+if swaps should also happen through other tokens than the wrapped native token, edit src/constants/index.js

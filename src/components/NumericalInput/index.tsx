@@ -59,28 +59,23 @@ export const Input = React.memo(function InnerInput({
 
   return (
     <StyledInput
-        {...rest}
-        value={value}
-        onChange={event => {
-            // replace commas with periods, because uniswap exclusively uses period as the decimal separator
-            enforcer(event.target.value.replace(/,/g, '.'));
-        }}
-        // universal input options
-        inputMode="decimal"
-        title="Token Amount"
-        autoComplete="off"
-        autoCorrect="off"
-        // text-specific options
-        type="text"
-        pattern="^[0-9]*[.,]?[0-9]*$"
-        placeholder={placeholder || '0.0'}
-        minLength={1}
-        maxLength={79}
-        spellCheck="false"
+      {...rest}
+      value={value}
+      onChange={(event) => enforcer(event.target.value.replace(/,/g, '.'))}
+      // universal input options
+      inputMode="decimal"
+      title="Token Amount"
+      autoComplete="off"
+      autoCorrect="off"
+      // text-specific options
+      type="text"
+      pattern="^[0-9]*[.,]?[0-9]*$"
+      placeholder={placeholder || '0.0'}
+      minLength={1}
+      maxLength={79}
+      spellCheck="false"
     />
   );
 });
 
 export default Input;
-
-// const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group

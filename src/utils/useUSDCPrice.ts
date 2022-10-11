@@ -1,5 +1,5 @@
-import {ChainId, Currency, currencyEquals, JSBI, Price, WETH} from 'neoswap-sdk';
-import {useMemo} from 'react';
+import { ChainId, Currency, currencyEquals, JSBI, Price, WETH } from '@uniswap/sdk';
+import { useMemo } from 'react';
 import { USDC } from '../constants';
 import { PairState, usePairs } from '../data/Reserves';
 import { useActiveWeb3React } from '../hooks';
@@ -16,10 +16,10 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
     () => [
       [
         chainId && wrapped && currencyEquals(WETH[chainId], wrapped) ? undefined : currency,
-          chainId ? WETH[chainId] : undefined
+        chainId ? WETH[chainId] : undefined,
       ],
       [wrapped?.equals(USDC) ? undefined : wrapped, chainId === ChainId.MAINNET ? USDC : undefined],
-        [chainId ? WETH[chainId] : undefined, chainId === ChainId.MAINNET ? USDC : undefined]
+      [chainId ? WETH[chainId] : undefined, chainId === ChainId.MAINNET ? USDC : undefined],
     ],
     [chainId, currency, wrapped]
   );
