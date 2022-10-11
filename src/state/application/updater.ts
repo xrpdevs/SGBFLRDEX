@@ -4,8 +4,6 @@ import useDebounce from '../../hooks/useDebounce';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
 import { updateBlockNumber } from './actions';
 import { useDispatch } from 'react-redux';
-import { ETHER } from "@uniswap/sdk";
-import { ETH_NAME_AND_SYMBOL } from "../../constants";
 
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React();
@@ -15,18 +13,18 @@ export default function Updater(): null {
 
   const [state, setState] = useState<{ chainId: number | undefined; blockNumber: number | null }>({
     chainId,
-    blockNumber: null,
+    blockNumber: null
   });
 
   const blockNumberCallback = useCallback(
     (blockNumber: number) => {
-      setState((state) => {
-        if (chainId === state.chainId) {
-          if (typeof state.blockNumber !== 'number') return { chainId, blockNumber };
-          return { chainId, blockNumber: Math.max(blockNumber, state.blockNumber) };
-        }
-        return state;
-      });
+        setState(state => {
+            if (chainId === state.chainId) {
+                if (typeof state.blockNumber !== 'number') return {chainId, blockNumber};
+                return {chainId, blockNumber: Math.max(blockNumber, state.blockNumber)};
+            }
+            return state;
+        });
     },
     [chainId, setState]
   );
@@ -37,10 +35,10 @@ export default function Updater(): null {
 
     setState({ chainId, blockNumber: null });
 
-    library
-      .getBlockNumber()
-      .then(blockNumberCallback)
-      .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error));
+      library
+          .getBlockNumber()
+          .then(blockNumberCallback)
+          .catch(error => console.error(`Failed to get block number for chainId: ${chainId}`, error));
 
     library.on('block', blockNumberCallback);
     return () => {
@@ -54,13 +52,6 @@ export default function Updater(): null {
     if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return;
     dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }));
   }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId]);
-
-  // set proper chains native token (ETHER) name and symbol
-  useEffect(() => {
-    if (chainId) {
-      ETHER.changeNameAndSymbol(ETH_NAME_AND_SYMBOL[chainId].name, ETH_NAME_AND_SYMBOL[chainId].symbol);
-    }
-  }, [chainId])
 
   return null;
 }

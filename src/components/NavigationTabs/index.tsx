@@ -5,12 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { NavLink, Link as HistoryLink } from 'react-router-dom';
 
 import { ArrowLeft } from 'react-feather';
-import { RowBetween } from '../Row';
-// import QuestionHelper from '../QuestionHelper'
-import Settings from '../Settings';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'state';
-import { resetMintState } from 'state/mint/actions';
+import {RowBetween} from '../Row';
+import QuestionHelper from '../QuestionHelper';
 
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -22,7 +18,7 @@ const Tabs = styled.div`
 const activeClassName = 'ACTIVE';
 
 const StyledNavLink = styled(NavLink).attrs({
-  activeClassName,
+    activeClassName
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
@@ -59,49 +55,47 @@ const StyledArrowLeft = styled(ArrowLeft)`
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
   const { t } = useTranslation();
   return (
-    <Tabs style={{ marginBottom: '20px', display: 'none' }}>
-      <StyledNavLink id={`swap-nav-link`} to={'/swap'} isActive={() => active === 'swap'}>
-        {t('swap')}
-      </StyledNavLink>
-      <StyledNavLink id={`pool-nav-link`} to={'/pool'} isActive={() => active === 'pool'}>
-        {t('pool')}
-      </StyledNavLink>
-    </Tabs>
+      <Tabs style={{marginBottom: '20px'}}>
+          <StyledNavLink id={`swap-nav-link`} to={'/swap'} isActive={() => active === 'swap'}>
+              {t('swap')}
+          </StyledNavLink>
+          <StyledNavLink id={`pool-nav-link`} to={'/pool'} isActive={() => active === 'pool'}>
+              {t('pool')}
+          </StyledNavLink>
+      </Tabs>
   );
 }
 
 export function FindPoolTabs() {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem 1rem 0 1rem' }}>
-        <HistoryLink to="/pool">
-          <StyledArrowLeft />
-        </HistoryLink>
-        <ActiveText>Import Pool</ActiveText>
-        <Settings />
-      </RowBetween>
+        <RowBetween style={{padding: '1rem'}}>
+            <HistoryLink to="/pool">
+                <StyledArrowLeft/>
+            </HistoryLink>
+            <ActiveText>Import Pool</ActiveText>
+            <QuestionHelper text={"Use this tool to find pairs that don't automatically appear in the interface."}/>
+        </RowBetween>
     </Tabs>
   );
 }
 
-export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating: boolean }) {
-  // reset states on back
-  const dispatch = useDispatch<AppDispatch>();
-
-  return (
-    <Tabs>
-      <RowBetween style={{ padding: '1rem 1rem 0 1rem' }}>
-        <HistoryLink
-          to="/pool"
-          onClick={() => {
-            adding && dispatch(resetMintState());
-          }}
-        >
-          <StyledArrowLeft />
-        </HistoryLink>
-        <ActiveText>{creating ? 'Create a pair' : adding ? 'Add Liquidity' : 'Remove Liquidity'}</ActiveText>
-        <Settings />
-      </RowBetween>
+export function AddRemoveTabs({adding}: { adding: boolean }) {
+    return (
+        <Tabs>
+            <RowBetween style={{padding: '1rem'}}>
+                <HistoryLink to="/pool">
+                    <StyledArrowLeft/>
+                </HistoryLink>
+                <ActiveText>{adding ? 'Add' : 'Remove'} Liquidity</ActiveText>
+                <QuestionHelper
+                    text={
+                        adding
+                            ? 'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.'
+                            : 'Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.'
+                    }
+                />
+            </RowBetween>
     </Tabs>
   );
 }

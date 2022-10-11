@@ -1,16 +1,16 @@
 {
-  "short_name": "swap",
-  "name": "swap",
+  "short_name": "DCTDEX",
+  "name": "DCTDEX",
   "icons": [
     {
-      "src": "./favicon.ico",
-      "sizes": "256x256",
+      "src": "./logo.png",
+      "sizes": "864x864",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "orientation": "portrait",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ff007a",
+  "background_color": "#fff"
 }

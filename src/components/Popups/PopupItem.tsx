@@ -30,9 +30,6 @@ export const Popup = styled.div`
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     min-width: 290px;
-    &:not(:last-of-type) {
-      margin-right: 20px;
-    }
   `}
 `;
 const Fader = styled.div`
@@ -49,7 +46,7 @@ const AnimatedFader = animated(Fader);
 export default function PopupItem({
   removeAfterMs,
   content,
-  popKey,
+  popKey
 }: {
   removeAfterMs: number | null;
   content: PopupContent;
@@ -74,12 +71,12 @@ export default function PopupItem({
   let popupContent;
   if ('txn' in content) {
     const {
-      txn: { hash, success, summary },
+      txn: {hash, success, summary}
     } = content;
     popupContent = <TransactionPopup hash={hash} success={success} summary={summary} />;
   } else if ('listUpdate' in content) {
     const {
-      listUpdate: { listUrl, oldList, newList, auto },
+      listUpdate: {listUrl, oldList, newList, auto}
     } = content;
     popupContent = (
       <ListUpdatePopup popKey={popKey} listUrl={listUrl} oldList={oldList} newList={newList} auto={auto} />
@@ -89,7 +86,7 @@ export default function PopupItem({
   const faderStyle = useSpring({
     from: { width: '100%' },
     to: { width: '0%' },
-    config: { duration: removeAfterMs ?? undefined },
+    config: {duration: removeAfterMs ?? undefined}
   });
 
   return (

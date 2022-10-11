@@ -68,7 +68,7 @@ const Input = styled.input<{ error?: boolean }>`
 export default function AddressInputPanel({
   id,
   value,
-  onChange,
+  onChange
 }: {
   id?: string;
   // the typed string value
@@ -82,11 +82,11 @@ export default function AddressInputPanel({
   const { address, loading, name } = useENS(value);
 
   const handleInput = useCallback(
-    (event) => {
-      const input = event.target.value;
-      const withoutSpaces = input.replace(/\s+/g, '');
-      onChange(withoutSpaces);
-    },
+      event => {
+        const input = event.target.value;
+        const withoutSpaces = input.replace(/\s+/g, '');
+        onChange(withoutSpaces);
+      },
     [onChange]
   );
 
@@ -102,9 +102,9 @@ export default function AddressInputPanel({
                 Recipient
               </TYPE.black>
               {address && chainId && (
-                <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  (View on Block Explorer)
-                </ExternalLink>
+                  <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'address')} style={{fontSize: '14px'}}>
+                    (View on Moonbeam explorer)
+                  </ExternalLink>
               )}
             </RowBetween>
             <Input

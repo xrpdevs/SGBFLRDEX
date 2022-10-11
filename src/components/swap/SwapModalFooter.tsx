@@ -1,5 +1,5 @@
-import { Trade, TradeType } from '@uniswap/sdk';
-import React, { useContext, useMemo, useState } from 'react';
+import {Trade, TradeType} from 'neoswap-sdk';
+import React, {useContext, useMemo, useState} from 'react';
 import { Repeat } from 'react-feather';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
@@ -9,7 +9,7 @@ import {
   computeSlippageAdjustedAmounts,
   computeTradePriceBreakdown,
   formatExecutionPrice,
-  warningSeverity,
+    warningSeverity
 } from '../../utils/prices';
 import { ButtonError } from '../Button';
 import { AutoColumn } from '../Column';
@@ -23,7 +23,7 @@ export default function SwapModalFooter({
   onConfirm,
   allowedSlippage,
   swapErrorMessage,
-  disabledConfirm,
+                                            disabledConfirm
 }: {
   trade: Trade;
   allowedSlippage: number;
@@ -31,22 +31,22 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined;
   disabledConfirm: boolean;
 }) {
-  const [showInverted, setShowInverted] = useState<boolean>(false);
-  const theme = useContext(ThemeContext);
-  const slippageAdjustedAmounts = useMemo(
-    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
-    [allowedSlippage, trade]
-  );
-  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade]);
-  const severity = warningSeverity(priceImpactWithoutFee);
+    const [showInverted, setShowInverted] = useState<boolean>(false);
+    const theme = useContext(ThemeContext);
+    const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
+        allowedSlippage,
+        trade
+    ]);
+    const {priceImpactWithoutFee, realizedLPFee} = useMemo(() => computeTradePriceBreakdown(trade), [trade]);
+    const severity = warningSeverity(priceImpactWithoutFee);
 
-  return (
-    <>
-      <AutoColumn gap="0px">
-        <RowBetween align="center">
-          <Text fontWeight={400} fontSize={14} color={theme.text2}>
-            Price
-          </Text>
+    return (
+        <>
+            <AutoColumn gap="0px">
+                <RowBetween align="center">
+                    <Text fontWeight={400} fontSize={14} color={theme.text2}>
+                        Price
+                    </Text>
           <Text
             fontWeight={500}
             fontSize={14}
@@ -56,7 +56,7 @@ export default function SwapModalFooter({
               alignItems: 'center',
               display: 'flex',
               textAlign: 'right',
-              paddingLeft: '10px',
+                paddingLeft: '10px'
             }}
           >
             {formatExecutionPrice(trade, showInverted)}
